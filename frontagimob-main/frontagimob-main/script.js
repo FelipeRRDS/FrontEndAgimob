@@ -19,6 +19,7 @@ const API_BASE_URL = 'http://localhost:8080/agimob';
 let dadosSimulacao = {};
 
 
+
 // Função auxiliar para converter string formatada (R$ 1.000) para número (1000)
 const parseCurrency = (value) => {
     if (typeof value === 'string') {
@@ -42,7 +43,57 @@ document.addEventListener('DOMContentLoaded', () => {
     /* --------------------------------------------------------------------------
         [1] LÓGICA DA NAVBAR & CARROSSEL (Códigos de layout omitidos por brevidade)
         -------------------------------------------------------------------------- */
-    // ... Código da Navbar e Carrossel ...
+    /* --------------------------------------------------------------------------
+   [1] LÓGICA DA NAVBAR & CARROSSEL
+   -------------------------------------------------------------------------- */
+const track = document.getElementById('carousel-track');
+const slides = Array.from(track.children);
+const prevButton = document.getElementById('prev-button');
+const nextButton = document.getElementById('next-button');
+const paginationContainer = document.getElementById('carousel-pagination');
+const dots = Array.from(paginationContainer.children);
+
+let slideIndex = 0; // Índice inicial
+
+// Função que move o carrossel (ajustando a tradução CSS)
+const moveSlide = (index) => {
+    track.style.transform = 'translateX(-' + index * slides[0].offsetWidth + 'px)';
+    slideIndex = index;
+    updateButtons();
+    updatePagination();
+};
+
+// Atualiza o estado dos botões (disabled)
+const updateButtons = () => {
+    prevButton.disabled = slideIndex === 0;
+    nextButton.disabled = slideIndex === slides.length - 1;
+};
+
+// Atualiza os pontos de paginação
+const updatePagination = () => {
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === slideIndex);
+    });
+};
+
+// Event Listeners para navegação
+prevButton.addEventListener('click', () => {
+    if (slideIndex > 0) {
+        moveSlide(slideIndex - 1);
+    }
+});
+
+nextButton.addEventListener('click', () => {
+    if (slideIndex < slides.length - 1) {
+        moveSlide(slideIndex + 1);
+    }
+});
+
+// Inicialização
+moveSlide(0); 
+
+// (Opcional: Adicionar lógica para ajustar ao redimensionar a tela)
+// window.addEventListener('resize', () => moveSlide(slideIndex));
 
 
     /* --------------------------------------------------------------------------
@@ -64,6 +115,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const emailPopup = document.getElementById('email-popup');
         const emailForm = document.getElementById('email-form');
         const popupCloseBtn = document.querySelector('.popup-close');
+
+        // Função para formatar um número como porcentagem (ex: 0.3 vira 30%)
+    const formatPercentage = (value) => {
+    let numericValue = Number(value) || 0; 
+    
+    // Se o backend enviar a porcentagem como 30 (ao invés de 0.3), 
+    // a formatação abaixo pode precisar de ajuste. Assumimos que é decimal (ex: 0.3)
+    return numericValue.toLocaleString('pt-BR', {
+        style: 'percent',
+        minimumFractionDigits: 1, // Ex: 30.0%
+        maximumFractionDigits: 2  // Ex: 30.00%
+    });
+};
 
         
         // --- FORMATAÇÃO AUTOMÁTICA DE INPUTS DE VALOR ---
@@ -105,11 +169,10 @@ const displayResults = (result, modalidade) => {
         document.getElementById('sac-total-juros').textContent = formatCurrency(infoSac.valorTotalJuros);
         
         // O valorTotalFinanciamento no DTO é o principal + juros. Se for apenas o principal, ajuste aqui:
-        const totalPagoSac = infoSac.valorTotalFinanciamento + infoSac.valorTotalJuros; 
-        document.getElementById('sac-total-pago').textContent = formatCurrency(totalPagoSac);
+        document.getElementById('sac-total-pago').textContent = formatCurrency(infoSac.valorTotalFinanciamento);
         
         // Se você tiver um campo para renda comprometida:
-        // document.getElementById('sac-renda-comprometida').textContent = formatCurrency(infoSac.rendaComprometida);
+        document.getElementById('sac-renda-comprometida').textContent = formatPercentage(infoSac.rendaComprometida);
         
         resultadoSAC.style.display = 'block';
     } else {
@@ -124,12 +187,8 @@ const displayResults = (result, modalidade) => {
         
         document.getElementById('price-parcela-fixa').textContent = formatCurrency(parcelaFixa);
         document.getElementById('price-total-juros').textContent = formatCurrency(infoPrice.valorTotalJuros);
-        
-        const totalPagoPrice = infoPrice.valorTotalFinanciamento + infoPrice.valorTotalJuros; 
-        document.getElementById('price-total-pago').textContent = formatCurrency(totalPagoPrice);
-        
-        // Se você tiver um campo para renda comprometida:
-        // document.getElementById('price-renda-comprometida').textContent = formatCurrency(infoPrice.rendaComprometida);
+        document.getElementById('price-total-pago').textContent = formatCurrency(infoPrice.valorTotalFinanciamento);
+        document.getElementById('price-renda-comprometida').textContent = formatPercentage(infoPrice.rendaComprometida);
         
         resultadoPrice.style.display = 'block';
     } else {
@@ -139,66 +198,69 @@ const displayResults = (result, modalidade) => {
 
 
         // --- [CONEXÃO API] SUBMISSÃO DO FORMULÁRIO: CHAMA /api/simulacao ---
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // 1. Coleta e sanitiza os dados do formulário
-            const valorImovel = parseCurrency(document.getElementById('valor-imovel').value);
-            const valorEntrada = parseCurrency(document.getElementById('valor-entrada').value);
-            const prazoAnos = parseInt(document.getElementById('prazo-anos').value) || 0;
-            const rendaBruta = parseCurrency(document.getElementById('renda-bruta').value);
-            const incluirParticipante = document.getElementById('incluir-participante').checked;
-            const rendaParticipante = incluirParticipante 
-                ? parseCurrency(document.getElementById('renda-conjuge').value) 
-                : 0;
-            const modalidade = document.getElementById('modalidade').value.toUpperCase();
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // 1. Coleta e sanitiza os dados do formulário
+    const valorImovel = parseCurrency(document.getElementById('valor-imovel').value);
+    const valorEntrada = parseCurrency(document.getElementById('valor-entrada').value);
+    const prazoAnos = parseInt(document.getElementById('prazo-anos').value) || 0;
+    const rendaBruta = parseCurrency(document.getElementById('renda-bruta').value);
+    const incluirParticipante = document.getElementById('incluir-participante').checked;
+    const rendaParticipante = incluirParticipante 
+        ? parseCurrency(document.getElementById('renda-conjuge').value) 
+        : 0;
+    const modalidade = document.getElementById('modalidade').value.toUpperCase();
 
-            // 2. Prepara a UI para o cálculo
-            resultsPlaceholder.textContent = 'Calculando... Aguarde a resposta do servidor.'; 
-            resultsPlaceholder.classList.add('active');
-            resultsContent.classList.remove('active');
-            
-            const dataToSend = {
-                valorTotal: valorImovel,
-                valorEntrada: valorEntrada,
-                prazo: prazoAnos,
-                rendaUsuario: rendaBruta,
-                rendaParticipante: rendaParticipante,
-                tipo: modalidade,
-            };
+    // 2. Prepara a UI para o cálculo
+    resultsPlaceholder.textContent = 'Calculando... Aguarde a resposta do servidor.'; 
+    resultsPlaceholder.classList.add('active');
+    resultsContent.classList.remove('active');
+    
+    const dataToSend = {
+        valorTotal: valorImovel,
+        valorEntrada: valorEntrada,
+        prazo: prazoAnos,
+        rendaUsuario: rendaBruta,
+        rendaParticipante: rendaParticipante,
+        tipo: modalidade,
+    };
+    
+    // Variável para armazenar o resultado em caso de erro no response.json()
+    let result = null; 
 
-            try {
-                // 3. Chamada à API de Simulação
-                const response = await fetch(`${API_BASE_URL}/simulacao`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(dataToSend),
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({ message: 'Erro desconhecido.' }));
-                    throw new Error(errorData.message || 'Falha na comunicação com o servidor de simulação.');
-                }
-
-                 const result = await response.json();
-            
-
-            
-                
-                // Armazena os dados completos para PDF/E-mail
-                dadosSimulacao = { ...dataToSend, result }; 
-                
-                displayResults(result, modalidade);
-                
-            } catch (error) {
-                console.error('Erro na simulação:', error);
-                resultsPlaceholder.textContent = `Erro: ${error.message}. Verifique o console ou o servidor.`;
-                resultsPlaceholder.classList.add('active');
-                resultsContent.classList.remove('active');
-            }
+    try {
+        // 3. Chamada à API de Simulação
+        const response = await fetch(`${API_BASE_URL}/simulacao`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(dataToSend),
         });
+        
+        // Tenta ler o corpo JSON. Isso funcionará para sucesso (200) e erro com corpo JSON (4xx)
+        result = await response.json().catch(() => ({})); 
 
+        if (!response.ok) {
+            // Se a resposta não for OK (4xx, 5xx), lança o erro usando a mensagem do corpo JSON, se existir
+            throw new Error(result.message || result.error || 'Falha na comunicação com o servidor de simulação.');
+        }
 
+        // Armazena os dados completos para PDF/E-mail (agora 'result' existe e é válido)
+        dadosSimulacao = { ...dataToSend, result }; 
+        
+        displayResults(result, modalidade);
+        
+    } catch (error) {
+        console.error('Erro na simulação:', error);
+        
+        // Exibe a mensagem de erro da exceção lançada
+        const errorMessage = error.message || 'Erro desconhecido durante a simulação.';
+
+        resultsPlaceholder.textContent = `Erro: ${errorMessage}. Verifique o console.`;
+        resultsPlaceholder.classList.add('active');
+        resultsContent.classList.remove('active');
+    }
+});
         // --- POPUP E ENVIO DE E-MAIL: CHAMA /api/enviar-email ---
         const togglePopup = () => emailPopup.classList.toggle('active');
         btnEnviarEmail.addEventListener('click', () => {
@@ -211,64 +273,99 @@ const displayResults = (result, modalidade) => {
         popupCloseBtn.addEventListener('click', togglePopup);
         emailPopup.addEventListener('click', (e) => { if (e.target === emailPopup) togglePopup(); });
         
-        emailForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email-input').value;
-            const submitButton = emailForm.querySelector('.cta-button');
+        // --- POPUP E ENVIO DE E-MAIL: CHAMA /agimob/simulacao/enviarSimulacao ---
+// (Mantenha o código de togglePopup e listeners do botão)
+// ...
 
-            submitButton.textContent = 'Enviando...';
-            submitButton.disabled = true;
+emailForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email-input').value;
+    const submitButton = emailForm.querySelector('.cta-button');
 
-            try {
-                // Monta o objeto que o backend (EmailRequestDto) espera
-                const dataToSend = { 
-                    email: email, 
-                    dadosSimulacao: dadosSimulacao // Envia todo o objeto de simulação
-                };
-                
-                // Chamada à API de Envio de E-mail
-                const response = await fetch(`${API_BASE_URL}/${email}/${response.json().id}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(dataToSend),
-                });
+    // 1. **VERIFICAÇÃO CRÍTICA DO ID**
+    // O ID deve estar salvo no objeto dadosSimulacao da chamada anterior
+    const simulacaoId = dadosSimulacao.result?.id; // Tenta obter o ID do resultado
+    
+    if (!simulacaoId) {
+        alert("Erro: O ID da simulação não foi encontrado. Por favor, refaça a simulação.");
+        return;
+    }
+    
+    submitButton.textContent = 'Enviando...';
+    submitButton.disabled = true;
 
-                const responseData = await response.json();
-
-                if (!response.ok) {
-                    throw new Error(responseData.message || 'Falha no servidor de envio de e-mail.');
-                }
-
-                alert(`Simulação enviada com sucesso para ${email}!`);
-                togglePopup();
-                emailForm.reset();
-
-            } catch (error) {
-                console.error('Erro no envio de e-mail:', error);
-                alert(`Falha ao enviar e-mail: ${error.message}`);
-            } finally {
-                submitButton.textContent = 'Enviar';
-                submitButton.disabled = false;
-            }
+    try {
+        // A URL COMPLETA E CORRETA, usando a rota do seu SimulacaoController:
+        const url = `${API_BASE_URL}/simulacao/enviarSimulacao/${email}/${simulacaoId}`;
+        
+        // Chamada à API de Envio de E-mail (Seu endpoint usa POST com Path Variables)
+        const response = await fetch(url, {
+            method: 'POST',
+            // O body não é necessário, pois seu backend usa Path Variables. 
+            // Se ele esperasse um JSON, o body deveria ser adicionado.
+            // body: JSON.stringify({ email: email, simulacaoId: simulacaoId }),
+            headers: { 'Content-Type': 'application/json' },
         });
+        
+        // Se o seu backend retorna 200 OK sem corpo (ResponseEntity<Void>), este bloco é suficiente.
+        if (!response.ok) {
+            // Tenta ler o erro do corpo, se houver
+            const errorBody = await response.text().catch(() => 'Erro desconhecido.');
+            throw new Error(`Falha: ${response.status} - ${errorBody}`);
+        }
 
+        alert(`Simulação enviada com sucesso para ${email}!`);
+        togglePopup();
+        emailForm.reset();
 
-        // --- GERAÇÃO DE PDF (Mantida localmente) ---
-        btnBaixarPDF.addEventListener('click', () => {
-            if (!dadosSimulacao.result) {
-                alert("Por favor, realize uma simulação antes de gerar o PDF.");
-                return;
-            }
-            
-            // ... Lógica de geração de PDF com jsPDF ...
-            alert("PDF gerado localmente com sucesso! (Verifique a lógica de PDF no script se necessário)");
-
-            /* Exemplo de Lógica de PDF:
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            // ... (preenchimento do doc) ...
-            doc.save('simulacao-agimob.pdf'); 
-            */
-        });
+    } catch (error) {
+        console.error('Erro no envio de e-mail:', error);
+        alert(`Falha ao enviar e-mail: ${error.message}`);
+    } finally {
+        submitButton.textContent = 'Enviar';
+        submitButton.disabled = false;
     }
 });
+            
+           // ...
+// --- GERAÇÃO DE PDF (Chamada API do Backend) ---
+btnBaixarPDF.addEventListener('click', async () => {
+    const simulacaoId = dadosSimulacao.result?.id; // Tenta obter o ID do resultado
+    
+    if (!simulacaoId) {
+        alert("Por favor, realize uma simulação antes de gerar o PDF.");
+        return;
+    }
+
+    try {
+        // ASSUMINDO QUE O ENDPOINT SEJA /agimob/pdf/gerar/{id}
+        const response = await fetch(`${API_BASE_URL}/pdf/gerar/${simulacaoId}`, {
+            method: 'GET' 
+        });
+
+        if (!response.ok) {
+            alert(`Falha ao gerar PDF: ${response.statusText}`);
+            return;
+        }
+
+        // O backend deve retornar o PDF como um Blob
+        const blob = await response.blob();
+        
+        // Lógica para forçar o download no navegador
+        const urlBlob = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = urlBlob;
+        a.download = `simulacao_agimob_${simulacaoId}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(urlBlob);
+
+        alert("PDF gerado e download iniciado com sucesso!");
+
+    } catch (error) {
+        console.error('Erro ao baixar PDF:', error);
+        alert("Erro de rede ao tentar baixar o PDF.");
+    }
+});
+    }});

@@ -20,7 +20,7 @@
             </a>
             <ul class="nav-menu">
                 <li><a href="#hero" class="nav-link">Início</a></li>
-                <li><a href="#how-it-works" class="nav-link">Como Funciona</a></li>
+                <li><a href="#how-it-works" class="nav-link">Entenda</a></li>
                 <li><a href="#simulator" class="nav-link">Simulador</a></li>
                 <li><a href="#benefits" class="nav-link">Vantagens</a></li>
             </ul>
@@ -37,8 +37,8 @@
         <section id="hero" class="hero">
             <div class="container">
                 <h1 class="hero-title">
-                    O simulador que te coloca <br>
-                    à frente no mercado imobiliário.
+                    O Simulador Imobiliário perfeito<br>
+                    para você!
                 </h1>
                 <p class="hero-subtitle">
                     Descubra as melhores condições de financiamento e planeje a compra da sua casa com precisão.
@@ -191,9 +191,9 @@
                             <div class="form-group">
                                 <label for="modalidade">Modalidade de Simulação</label>
                                 <select id="modalidade" name="modalidade" required>
-                                    <option value="ambos">Comparar SAC e PRICE</option>
-                                    <option value="sac">Apenas Tabela SAC</option>
-                                    <option value="price">Apenas Tabela PRICE</option>
+
+                                    <option value="sac">Tabela - SAC</option>
+                                    <option value="price">Tabela - PRICE</option>
                                 </select>
                             </div>
 
@@ -215,18 +215,20 @@
                         <div class="results-content">
                             
                             <div class="result-card" id="resultado-sac">
-                                <h4>Tabela SAC (Amortização Constante)</h4>
+                                <h4>Tabela do Tipo - SAC (Amortização Constante)</h4>
                                 <p>Primeira Parcela: <strong id="sac-primeira-parcela">R$ -</strong></p>
                                 <p>Última Parcela: <strong id="sac-ultima-parcela">R$ -</strong></p>
                                 <p>Total de Juros: <strong id="sac-total-juros">R$ -</strong></p>
-                                <p>Total Pago ao final: <strong id="sac-total-pago">R$ -</strong></p>
+                                <p>Renda Comprometida: <strong id="sac-renda-comprometida"></strong></p>
+                                <p>Total Pago ao Final: <strong id="sac-total-pago">R$ -</strong></p>
                             </div>
 
                             <div class="result-card" id="resultado-price">
-                                <h4>Tabela PRICE (Parcelas Fixas)</h4>
+                                <h4>Tabela do Tipo - PRICE (Parcelas Fixas)</h4>
                                 <p>Parcela Fixa Mensal: <strong id="price-parcela-fixa">R$ -</strong></p>
                                 <p>Total de Juros: <strong id="price-total-juros">R$ -</strong></p>
-                                <p>Total Pago ao final: <strong id="price-total-pago">R$ -</strong></p>
+                                <p>Renda Comprometida: <strong id="price-renda-comprometida"></strong></p>
+                                <p>Total Pago ao Final: <strong id="price-total-pago">R$ -</strong></p>
                             </div>
 
                             <div class="results-actions">
