@@ -103,6 +103,10 @@ moveSlide(0);
     if (form) {
         
         // --- Referências de Elementos ---
+        const checkboxAgi = document.getElementById('sou-cliente-agi');
+        const cpfContainer = document.getElementById('cpf-container');
+        const cpfInput = document.getElementById('cpf-usuario');
+
         const incluirParticipanteCheckbox = document.getElementById('incluir-participante');
         const conjugeField = document.querySelector('.conjuge-field');
         const resultadoDiv = document.getElementById('resultado-simulacao');
@@ -128,6 +132,20 @@ moveSlide(0);
         maximumFractionDigits: 2  // Ex: 30.00%
     });
 };
+
+    checkboxAgi.addEventListener('change', () => {
+        if (checkboxAgi.checked) {
+        // Se marcado, remove a classe 'hidden' para mostrar o container
+         cpfContainer.classList.remove('hidden');
+            cpfInput.setAttribute('required', 'required'); // O CPF se torna obrigatório
+        // Adicione aqui uma máscara de CPF (opcional, mas recomendado)
+    } else {
+        // Se desmarcado, adiciona a classe 'hidden' para esconder o container
+        cpfContainer.classList.add('hidden');
+        cpfInput.removeAttribute('required'); // Remove a obrigatoriedade
+        cpfInput.value = ''; // Limpa o campo
+    }
+});
 
         
         // --- FORMATAÇÃO AUTOMÁTICA DE INPUTS DE VALOR ---
@@ -211,6 +229,8 @@ form.addEventListener('submit', async (e) => {
         ? parseCurrency(document.getElementById('renda-conjuge').value) 
         : 0;
     const modalidade = document.getElementById('modalidade').value.toUpperCase();
+    const cpf = document.getElementById('cpf-usuario').value;
+    const isClienteAgi = document.getElementById('sou-cliente-agi').checked;
 
     // 2. Prepara a UI para o cálculo
     resultsPlaceholder.textContent = 'Calculando... Aguarde a resposta do servidor.'; 
@@ -218,6 +238,7 @@ form.addEventListener('submit', async (e) => {
     resultsContent.classList.remove('active');
     
     const dataToSend = {
+        cpfUsuario: isClienteAgi ? cpf : null,
         valorTotal: valorImovel,
         valorEntrada: valorEntrada,
         prazo: prazoAnos,
@@ -339,8 +360,8 @@ btnBaixarPDF.addEventListener('click', async () => {
 
     try {
         // ASSUMINDO QUE O ENDPOINT SEJA /agimob/pdf/gerar/{id}
-        const response = await fetch(`${API_BASE_URL}/pdf/gerar/${simulacaoId}`, {
-            method: 'GET' 
+        const response = await fetch(`${API_BASE_URL}/simulacao/baixarSimulacao/${simulacaoId}`, {
+            method: 'POST' 
         });
 
         if (!response.ok) {

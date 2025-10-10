@@ -58,36 +58,6 @@
                 </div>
                 <div class="carousel-container">
                     <div class="carousel-track" id="carousel-track">
-                        
-                        <div class="carousel-slide">
-                            <div class="slide-header">
-                                <div class="header-text">
-                                    <h3>Tabela SAC</h3>
-                                    <span>Sistema de Amortização Constante</span>
-                                    <p>A amortização (pagamento do principal) é constante. Juros e parcelas diminuem ao longo do tempo.</p>
-                                </div>
-                            </div>
-                            <div class="slide-body">
-                                <h4>Benefícios e Desvantagens</h4>
-                                <div class="comparison-grid">
-                                    <div class="comparison-column">
-                                        <h5>Vantagens</h5>
-                                        <ul class="advantages-list">
-                                            <li><i class="fas fa-check-circle"></i> Redução gradual das parcelas.</li>
-                                            <li><i class="fas fa-check-circle"></i> Maior amortização nos primeiros anos.</li>
-                                            <li><i class="fas fa-check-circle"></i> Menor valor total de juros pago.</li>
-                                        </ul>
-                                    </div>
-                                    <div class="comparison-column">
-                                        <h5>Desvantagens</h5>
-                                        <ul class="disadvantages-list">
-                                            <li><i class="fas fa-times-circle"></i> Parcelas iniciais mais altas.</li>
-                                            <li><i class="fas fa-times-circle"></i> Exige maior capacidade de renda inicial.</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="carousel-slide">
                             <div class="slide-header">
@@ -113,6 +83,36 @@
                                         <ul class="disadvantages-list">
                                             <li><i class="fas fa-times-circle"></i> Maior valor total de juros pago.</li>
                                             <li><i class="fas fa-times-circle"></i> Amortização lenta no início do contrato.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide">
+                            <div class="slide-header">
+                                <div class="header-text">
+                                    <h3>Tabela SAC</h3>
+                                    <span>Sistema de Amortização Constante</span>
+                                    <p>A amortização (pagamento do principal) é constante. Juros e parcelas diminuem ao longo do tempo.</p>
+                                </div>
+                            </div>
+                            <div class="slide-body">
+                                <h4>Benefícios e Desvantagens</h4>
+                                <div class="comparison-grid">
+                                    <div class="comparison-column">
+                                        <h5>Vantagens</h5>
+                                        <ul class="advantages-list">
+                                            <li><i class="fas fa-check-circle"></i> Redução gradual das parcelas.</li>
+                                            <li><i class="fas fa-check-circle"></i> Maior amortização nos primeiros anos.</li>
+                                            <li><i class="fas fa-check-circle"></i> Menor valor total de juros pago.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="comparison-column">
+                                        <h5>Desvantagens</h5>
+                                        <ul class="disadvantages-list">
+                                            <li><i class="fas fa-times-circle"></i> Parcelas iniciais mais altas.</li>
+                                            <li><i class="fas fa-times-circle"></i> Exige maior capacidade de renda inicial.</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -152,6 +152,18 @@
                             <h3>Dados para Simulação</h3>
                             <p>Forneça as informações financeiras e do imóvel.</p>
                         </div>
+
+                        <div class="form-group checkbox-group">
+    <input type="checkbox" id="sou-cliente-agi" name="sou-cliente-agi">
+    <label for="sou-cliente-agi">Sou Cliente Agi</label>
+    <small>Marque se você já tem conta para um cálculo mais preciso.</small>
+</div>
+
+<div class="form-group cpf-field hidden" id="cpf-container">
+    <label for="cpf-usuario">Seu CPF</label>
+    <input type="text" id="cpf-usuario" name="cpf-usuario" placeholder="000.000.000-00">
+    <small>Usaremos o CPF apenas para consultar seu score interno e aplicar a taxa correta.</small>
+</div>
                         
                         <form id="financing-form">
                             <div class="form-group">

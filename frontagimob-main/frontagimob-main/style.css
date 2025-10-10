@@ -180,6 +180,29 @@ body {
 .action-button.email:hover { background-color: #69C93A; }
 .disclaimer { font-size: 0.8rem; text-align: center; margin-top: 2rem; }
 
+/* --- ESTILOS PARA O CAMPO CPF ESCONDIDO --- */
+
+/* Regra principal: Esconde o container do CPF por padrão */
+.form-group.cpf-field.hidden {
+    /* Garante que o elemento não ocupe espaço na tela */
+    display: none; 
+    /* Adiciona uma transição suave para quando o JS mostrar/esconder */
+    opacity: 0; 
+}
+
+/* Regra para quando o JavaScript remove a classe 'hidden' */
+.form-group.cpf-field:not(.hidden) {
+    /* Exibe o elemento como um bloco normal do formulário */
+    display: block; 
+    /* Torna-o visível */
+    opacity: 1; 
+    /* Opcional: Adiciona espaçamento normal para os campos */
+    margin-top: 15px; 
+    margin-bottom: 15px;
+    /* Opcional: Transição suave para melhor UX */
+    transition: opacity 0.3s ease-in-out;
+}
+
 
 /* --------------------------------------------------------------------------
    [5.5] NOVA SEÇÃO: POR QUE ESCOLHER O SIMULADOR
