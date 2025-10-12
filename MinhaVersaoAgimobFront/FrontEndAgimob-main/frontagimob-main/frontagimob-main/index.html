@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agimob - Simulador de Financiamento Imobiliário</title>
+
+    <link rel="stylesheet" href="style.css"> 
+
+    </head>
+<body>
+
+    <header class="header">
+        <nav class="navbar container">
+            <a href="#" class="nav-logo">
+                AGIMOB
+                <span class="i-container">
+                    <span class="logo-dot"></span>
+                </span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#hero" class="nav-link">Início</a></li>
+                <li><a href="#how-it-works" class="nav-link">Entenda</a></li>
+                <li><a href="#simulator" class="nav-link">Simulador</a></li>
+                <li><a href="#benefits" class="nav-link">Vantagens</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        
+        <section id="hero" class="hero">
+            <div class="container">
+                <h1 class="hero-title">
+                    O Simulador Imobiliário perfeito<br>
+                    para você!
+                </h1>
+                <p class="hero-subtitle">
+                    Descubra as melhores condições de financiamento e planeje a compra da sua casa com precisão.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#simulator" class="btn btn-primary">Simular Agora</a>
+                    <a href="#how-it-works" class="btn btn-secondary">Saiba Mais</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="how-it-works">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Entenda as Modalidades de Amortização</h2>
+                    <p class="section-subtitle">O seu financiamento pode ser calculado de duas maneiras principais. Saiba qual é a melhor para você.</p>
+                </div>
+                <div class="carousel-container">
+                    <div class="carousel-track" id="carousel-track">
+
+                        <div class="carousel-slide">
+                            <div class="slide-header">
+                                <div class="header-text">
+                                    <h3>Tabela PRICE</h3>
+                                    <span>Sistema Francês de Amortização</span>
+                                    <p>As parcelas têm valor fixo, sendo a maior parte do pagamento inicial composta por juros.</p>
+                                </div>
+                            </div>
+                            <div class="slide-body">
+                                <h4>Benefícios e Desvantagens</h4>
+                                <div class="comparison-grid">
+                                    <div class="comparison-column">
+                                        <h5>Vantagens</h5>
+                                        <ul class="advantages-list">
+                                            <li><i class="fas fa-check-circle"></i> Parcelas fixas e previsíveis do início ao fim.</li>
+                                            <li><i class="fas fa-check-circle"></i> Parcelas iniciais menores que as da SAC.</li>
+                                            <li><i class="fas fa-check-circle"></i> Facilita o planejamento financeiro mensal.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="comparison-column">
+                                        <h5>Desvantagens</h5>
+                                        <ul class="disadvantages-list">
+                                            <li><i class="fas fa-times-circle"></i> Maior valor total de juros pago.</li>
+                                            <li><i class="fas fa-times-circle"></i> Amortização lenta no início do contrato.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide">
+                            <div class="slide-header">
+                                <div class="header-text">
+                                    <h3>Tabela SAC</h3>
+                                    <span>Sistema de Amortização Constante</span>
+                                    <p>A amortização (pagamento do principal) é constante. Juros e parcelas diminuem ao longo do tempo.</p>
+                                </div>
+                            </div>
+                            <div class="slide-body">
+                                <h4>Benefícios e Desvantagens</h4>
+                                <div class="comparison-grid">
+                                    <div class="comparison-column">
+                                        <h5>Vantagens</h5>
+                                        <ul class="advantages-list">
+                                            <li><i class="fas fa-check-circle"></i> Redução gradual das parcelas.</li>
+                                            <li><i class="fas fa-check-circle"></i> Maior amortização nos primeiros anos.</li>
+                                            <li><i class="fas fa-check-circle"></i> Menor valor total de juros pago.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="comparison-column">
+                                        <h5>Desvantagens</h5>
+                                        <ul class="disadvantages-list">
+                                            <li><i class="fas fa-times-circle"></i> Parcelas iniciais mais altas.</li>
+                                            <li><i class="fas fa-times-circle"></i> Exige maior capacidade de renda inicial.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <div class="carousel-nav">
+                    <button class="carousel-button" id="prev-button" disabled>Anterior</button>
+                    <div class="carousel-pagination" id="carousel-pagination">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                    </div>
+                    <button class="carousel-button" id="next-button">Próximo</button>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="simulator" class="simulator">
+            <div class="container">
+                <div class="simulator-header section-header">
+                    <h2 class="section-title">Seu Futuro Imóvel Começa Aqui</h2>
+                    <p class="section-subtitle">Preencha os dados abaixo e compare as modalidades SAC e PRICE em tempo real.</p>
+                </div>
+                
+                <div class="simulator-container">
+                    
+                    <div class="calculator-form">
+                        <div class="form-header">
+                            <div class="form-icon">
+                                <img src="icons/calculator.svg" alt="Ícone Calculadora">
+                            </div>
+                            <h3>Dados para Simulação</h3>
+                            <p>Forneça as informações financeiras e do imóvel.</p>
+                        </div>
+                        <form id="financing-form">
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="sou-cliente-agi" name="sou-cliente-agi">
+                                <label for="sou-cliente-agi">Sou Cliente Agi</label>
+                                <small>Marque se você já tem conta para um cálculo mais preciso.</small>
+                            </div>
+
+                            <div class="form-group cpf-field hidden" id="cpf-container">
+                                <label for="cpf-usuario">Seu CPF</label>
+                                <input type="text" id="cpf-usuario" name="cpf-usuario" placeholder="000.000.000-00">
+                                <small>Usaremos o CPF apenas para consultar seu score interno e aplicar a taxa correta.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="valor-imovel">Valor Total do Imóvel (R$)</label>
+                                <input type="text" id="valor-imovel" name="valor-imovel" placeholder="Ex: 300.000,00" required>
+                                <small>Valor de avaliação ou compra do imóvel.</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="valor-entrada">Valor de Entrada (R$)</label>
+                                <input type="text" id="valor-entrada" name="valor-entrada" placeholder="Ex: 60.000,00" required>
+                                <small>Recomendado no mínimo 20% do valor do imóvel.</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="prazo-anos">Prazo Desejado (Anos)</label>
+                                <input type="number" id="prazo-anos" name="prazo-anos" min="1" max="35" value="30" required>
+                                <small>Prazo máximo de financiamento é 35 anos.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="renda-bruta">Renda Bruta Mensal (R$)</label>
+                                <input type="text" id="renda-bruta" name="renda-bruta" placeholder="Ex: 5.000,00" required>
+                                <small>Renda do proponente principal.</small>
+                            </div>
+
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="incluir-participante" name="incluir-participante">
+                                <label for="incluir-participante">Incluir Renda de Participante/Cônjuge</label>
+                            </div>
+
+                            <div class="form-group conjuge-field hidden">
+                                <label for="renda-conjuge">Renda do Participante (R$)</label>
+                                <input type="text" id="renda-conjuge" name="renda-conjuge" placeholder="Ex: 3.500,00">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="modalidade">Modalidade de Simulação</label>
+                                <select id="modalidade" name="modalidade" required>
+
+                                    <option value="sac">Tabela - SAC</option>
+                                    <option value="price">Tabela - PRICE</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="cta-button">
+                                <img src="icons/chart.svg" alt="Ícone Gráfico">
+                                Simular Condições Agora
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="calculator-results" id="resultado-simulacao">
+                        
+                        <div class="results-placeholder active">
+                            <img src="icons/chart-bar.svg" alt="Ícone Gráfico de Barras">
+                            <h3>Aguardando Simulação</h3>
+                            <p>Preencha os campos ao lado e clique em 'Simular' para ver suas condições.</p>
+                        </div>
+
+                        <div class="results-content">
+                            
+                            <div class="result-card" id="resultado-sac">
+                                <h4>Tabela do Tipo - SAC (Amortização Constante)</h4>
+                                <p>Primeira Parcela: <strong id="sac-primeira-parcela">R$ -</strong></p>
+                                <p>Última Parcela: <strong id="sac-ultima-parcela">R$ -</strong></p>
+                                <p>Total de Juros: <strong id="sac-total-juros">R$ -</strong></p>
+                                <p>Renda Comprometida: <strong id="sac-renda-comprometida"></strong></p>
+                                <p>Total Pago ao Final: <strong id="sac-total-pago">R$ -</strong></p>
+                            </div>
+
+                            <div class="result-card" id="resultado-price">
+                                <h4>Tabela do Tipo - PRICE (Parcelas Fixas)</h4>
+                                <p>Parcela Fixa Mensal: <strong id="price-parcela-fixa">R$ -</strong></p>
+                                <p>Total de Juros: <strong id="price-total-juros">R$ -</strong></p>
+                                <p>Renda Comprometida: <strong id="price-renda-comprometida"></strong></p>
+                                <p>Total Pago ao Final: <strong id="price-total-pago">R$ -</strong></p>
+                            </div>
+
+                            <div class="results-actions">
+                                <button class="action-button pdf" id="btn-baixar-pdf">Baixar PDF</button>
+                                <button class="action-button email" id="btn-enviar-email">Enviar por E-mail</button>
+                            </div>
+
+                            <p class="disclaimer">* Valores são apenas estimativas e não constituem proposta de crédito.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="cliente-agi">
+    <div class="agi-client">
+        <!-- Cabeçalho -->
+        <div class="section-header">
+            <h1 class="section-title-agi">
+                É cliente <span class="Agi">Agi</span>?
+            </h1>
+            <p class="section-subtitle-agi">
+                Entre agora na sua conta Agi ou fale com um dos nossos colaboradores
+            </p>
+        </div>
+
+        <!-- Botões CTA -->
+        <div class="login-cta">
+            <a href="https://www.agi.com.br/" target="_blank" class="btn btn-primary">
+                Acessar Conta Agi
+            </a>
+            <a href="https://api.whatsapp.com/send?phone=551130042221&text=Ol%C3%A1!%20Meu%20c%C3%B3digo%20%C3%A9%20(Cgccdldbtb45Dpi)%20e%20quero%20falar%20com%20o%20Agi!&type=phone_number&app_absent=0"
+               target="_blank" class="btn btn-secondary">
+                Falar com um Colaborador
+            </a>
+        </div>
+
+        <!-- Vídeo de destaque -->
+        <div class="video-container">
+            <video autoplay loop muted playsinline>
+                <source src="https://static.agibank.com.br/web_public/site/images-site/familia-banner-hero-site.webm" type="video/mp4">
+                Seu navegador não suporta o elemento de vídeo.
+            </video>
+        </div>
+    </div>
+</section>
+
+
+        <section id="why-us" class="why-us">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Por Que Escolher o Simulador <span>AGIMOB</span>?</h2>
+                    <p class="section-subtitle">Ferramentas e diferenciais que garantem a melhor decisão para o seu futuro.</p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon green-bg">
+                            <img src="icons/scale.svg" alt="Comparação">
+                        </div>
+                        <h3>Comparação Completa</h3>
+                        <p>Compare lado a lado as modalidades SAC e PRICE em uma única tela, otimizando sua escolha.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon blue-bg">
+                            <img src="icons/lock.svg" alt="Segurança">
+                        </div>
+                        <h3>Segurança de Dados</h3>
+                        <p>Sua simulação é protegida e não compartilhamos seus dados sem sua autorização expressa.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon green-bg">
+                            <img src="icons/email.svg" alt="Relatório">
+                        </div>
+                        <h3>Relatórios por E-mail</h3>
+                        <p>Receba o resumo completo da sua simulação diretamente na sua caixa de entrada para análise.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon blue-bg">
+                            <img src="/icons/fast.svg" alt="Velocidade">
+                            <img src="icons/fast.svg" alt="Velocidade">
+                        </div>
+                        <h3>Cálculo Instantâneo</h3>
+                        <p>Integração direta com o backend para um cálculo rápido e preciso, sem demoras.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="benefits" class="benefits">
+            <div class="container">
+                 <div class="section-header">
+                    <h2 class="section-title">Vantagens de Simular Conosco</h2>
+                    <p class="section-subtitle">Oferecemos mais do que apenas um cálculo; oferecemos clareza e poder de decisão.</p>
+                </div>
+
+                <div class="benefits-grid">
+                    
+                    <div class="benefit-card">
+                        <div class="benefit-header">
+                            <div class="benefit-icon">
+                                <img src="icons/dollar.svg" alt="Cálculo de Juros">
+                            </div>
+                            <h4>Seguro Incluído Gratuitamente</h4>
+                        </div>
+                        <p>Todo cliente AGIMOB GANHA o seguro do financiamento sem custo adicional. Uma proteção extra que garante tranquilidade para você e sua família, incluída automaticamente no seu contrato.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-header">
+                            <div class="benefit-icon">
+                                <img src="icons/dollar.svg" alt="Cálculo de Juros">
+                            </div>
+                            <h4>Parcelas Flexíveis</h4>
+                        </div>
+                        <p>Oferecemos sistemas de parcelas flexíveis com a possibilidade de antecipar parcelas quando você tiver recursos disponíveis. Reduza o tempo do seu financiamento e economize ainda mais em juros.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-header">
+                            <div class="benefit-icon">
+                                <img src="icons/dollar.svg" alt="Cálculo de Juros">
+                            </div>
+                            <h4>Transparência nos Juros Totais</h4>
+                        </div>
+                        <p>Descubra o valor exato dos juros que serão pagos ao longo de todo o contrato. A diferença entre SAC e PRICE no longo prazo pode ser surpreendente.</p>
+                    </div>
+
+                    <div class="benefit-card">
+                        <div class="benefit-header">
+                            <div class="benefit-icon">
+                                <img src="/icons/ruler.svg" alt="Régua">
+                                <img src="icons/ruler.svg" alt="Régua">
+                            </div>
+                            <h4>Análise de Renda e Limite de Crédito</h4>
+                        </div>
+                        <p>Calculamos sua capacidade de pagamento para garantir que as parcelas não comprometam mais de 30% de sua renda bruta familiar.</p>
+                        <div class="sub-benefit">
+                            <p><strong>Dica:</strong> A renda conjunta maximiza seu poder de compra e aumenta o limite do financiamento.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="popup-overlay" id="email-popup">
+        <div class="popup-content">
+            <button class="popup-close">&times;</button>
+            <h4>Receba sua Simulação por E-mail</h4>
+            <p>Insira seu endereço de e-mail e enviaremos o relatório detalhado da sua simulação.</p>
+            <form id="email-form">
+                <input type="email" id="email-input" placeholder="seu.email@exemplo.com" required>
+                <button type="submit" class="cta-button">Enviar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+</html>

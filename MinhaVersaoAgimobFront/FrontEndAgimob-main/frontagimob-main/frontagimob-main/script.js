@@ -1,0 +1,265 @@
+'use strict';
+
+const API_BASE_URL = 'http://localhost:8080/agimob'; 
+
+let dadosSimulacao = {};
+
+// -------------------- FUNÇÕES AUXILIARES --------------------
+const parseCurrency = (value) => {
+    if (typeof value === 'string') {
+        return parseFloat(value.replace(/\./g, '').replace(',', '.').replace(/[^\d.-]/g, '')) || 0;
+    }
+    return 0;
+};
+
+const formatCurrency = (value) => {
+    if (typeof value !== 'number' || isNaN(value)) return 'R$ 0,00';
+    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+};
+
+const formatPercentage = (value) => {
+    let numericValue = Number(value) || 0;
+    return numericValue.toLocaleString('pt-BR', {
+        style: 'percent',
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 2
+    });
+};
+
+// -------------------- DOMContentLoaded --------------------
+document.addEventListener('DOMContentLoaded', () => {
+
+    // -------------------- CARROSSEL --------------------
+    const track = document.getElementById('carousel-track');
+    const slides = Array.from(track.children);
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+    const paginationContainer = document.getElementById('carousel-pagination');
+    const dots = Array.from(paginationContainer.children);
+
+    let slideIndex = 0;
+
+    const moveSlide = (index) => {
+        track.style.transform = 'translateX(-' + index * slides[0].offsetWidth + 'px)';
+        slideIndex = index;
+        prevButton.disabled = slideIndex === 0;
+        nextButton.disabled = slideIndex === slides.length - 1;
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === slideIndex));
+    };
+
+    prevButton.addEventListener('click', () => { if (slideIndex > 0) moveSlide(slideIndex - 1); });
+    nextButton.addEventListener('click', () => { if (slideIndex < slides.length - 1) moveSlide(slideIndex + 1); });
+
+    moveSlide(0);
+
+    // -------------------- CALCULADORA --------------------
+    const form = document.getElementById('financing-form');
+    if (!form) return;
+
+    // Elementos
+    const checkboxAgi = document.getElementById('sou-cliente-agi');
+    const cpfContainer = document.getElementById('cpf-container');
+    const cpfInput = document.getElementById('cpf-usuario');
+    const incluirParticipanteCheckbox = document.getElementById('incluir-participante');
+    const conjugeField = document.querySelector('.conjuge-field');
+
+    const resultadoDiv = document.getElementById('resultado-simulacao');
+    const resultsPlaceholder = resultadoDiv.querySelector('.results-placeholder');
+    const resultsContent = resultadoDiv.querySelector('.results-content');
+    const resultadoSAC = document.getElementById('resultado-sac');
+    const resultadoPrice = document.getElementById('resultado-price');
+
+    const btnBaixarPDF = document.getElementById('btn-baixar-pdf');
+    const btnEnviarEmail = document.getElementById('btn-enviar-email');
+    const emailPopup = document.getElementById('email-popup');
+    const emailForm = document.getElementById('email-form');
+    const popupCloseBtn = document.querySelector('.popup-close');
+
+    // -------------------- MASCARA DE CPF E TOGGLE --------------------
+    checkboxAgi.addEventListener('change', () => {
+        if (checkboxAgi.checked) {
+            cpfContainer.classList.remove('hidden');
+            cpfInput.setAttribute('required', 'required');
+        } else {
+            cpfContainer.classList.add('hidden');
+            cpfInput.removeAttribute('required');
+            cpfInput.value = '';
+        }
+    });
+
+    incluirParticipanteCheckbox.addEventListener('change', () => {
+        if (incluirParticipanteCheckbox.checked) {
+            conjugeField.classList.remove('hidden');
+            document.getElementById('renda-conjuge').setAttribute('required', 'required');
+        } else {
+            conjugeField.classList.add('hidden');
+            document.getElementById('renda-conjuge').removeAttribute('required');
+            document.getElementById('renda-conjuge').value = '';
+        }
+    });
+
+    // -------------------- FORMATACAO DE CURRENCY INPUTS --------------------
+    const formatCurrencyInput = (input) => {
+        let value = input.value.replace(/\D/g, '');
+        if (!value) { input.value = ''; return; }
+        input.value = new Intl.NumberFormat('pt-BR').format(value);
+    };
+    document.querySelectorAll('#valor-imovel, #valor-entrada, #renda-bruta, #renda-conjuge')
+        .forEach(input => input.addEventListener('input', () => formatCurrencyInput(input)));
+
+    // -------------------- FUNÇÕES DE SCORE --------------------
+    async function buscarScorePorCpf(cpf) {
+        if (!cpf) return null;
+        try {
+            const response = await fetch(`${API_BASE_URL}/scoreApi/${cpf}`);
+            if (!response.ok) throw new Error(`Erro ao buscar score (status ${response.status})`);
+            const dados = await response.json();
+            console.log("✅ Score obtido:", dados);
+            return dados;
+        } catch (error) {
+            console.error("❌ Erro ao obter score:", error);
+            return null;
+        }
+    }
+
+    // -------------------- EXIBIR RESULTADOS --------------------
+    const displayResults = (result, modalidade) => {
+        resultsPlaceholder.classList.remove('active');
+        resultsContent.classList.add('active');
+
+        const infoSac = result.informacoesAdicionaisSac || result.informacoesAdicionais;
+        const infoPrice = result.informacoesAdicionaisPrice || result.informacoesAdicionais;
+
+        const showSAC = modalidade.includes('SAC') && infoSac;
+        const showPRICE = modalidade.includes('PRICE') && infoPrice;
+
+        if (showSAC) {
+            document.getElementById('sac-primeira-parcela').textContent = formatCurrency(infoSac.primeiraParcela);
+            document.getElementById('sac-ultima-parcela').textContent = formatCurrency(infoSac.ultimaParcela);
+            document.getElementById('sac-total-juros').textContent = formatCurrency(infoSac.valorTotalJuros);
+            document.getElementById('sac-total-pago').textContent = formatCurrency(infoSac.valorTotalFinanciamento);
+            document.getElementById('sac-renda-comprometida').textContent = formatPercentage(infoSac.rendaComprometida);
+            resultadoSAC.style.display = 'block';
+        } else { resultadoSAC.style.display = 'none'; }
+
+        if (showPRICE) {
+            document.getElementById('price-parcela-fixa').textContent = formatCurrency(infoPrice.primeiraParcela);
+            document.getElementById('price-total-juros').textContent = formatCurrency(infoPrice.valorTotalJuros);
+            document.getElementById('price-total-pago').textContent = formatCurrency(infoPrice.valorTotalFinanciamento);
+            document.getElementById('price-renda-comprometida').textContent = formatPercentage(infoPrice.rendaComprometida);
+            resultadoPrice.style.display = 'block';
+        } else { resultadoPrice.style.display = 'none'; }
+    };
+
+    // -------------------- SUBMISSÃO DO FORMULÁRIO --------------------
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const cpf = cpfInput.value;
+        let scoreDto = null;
+
+        if (cpf) {
+            scoreDto = await buscarScorePorCpf(cpf);
+            if (!scoreDto) alert("Não foi possível obter o score do usuário. A simulação continuará sem ele.");
+        }
+
+        const valorImovel = parseCurrency(document.getElementById('valor-imovel').value);
+        const valorEntrada = parseCurrency(document.getElementById('valor-entrada').value);
+        const prazoAnos = parseInt(document.getElementById('prazo-anos').value) || 0;
+        const rendaBruta = parseCurrency(document.getElementById('renda-bruta').value);
+        const incluirParticipante = incluirParticipanteCheckbox.checked;
+        const rendaParticipante = incluirParticipante ? parseCurrency(document.getElementById('renda-conjuge').value) : 0;
+        const modalidade = document.getElementById('modalidade').value.toUpperCase();
+        const isClienteAgi = checkboxAgi.checked;
+
+        resultsPlaceholder.textContent = 'Calculando... Aguarde a resposta do servidor.';
+        resultsPlaceholder.classList.add('active');
+        resultsContent.classList.remove('active');
+
+        const dataToSend = {
+            cpfUsuario: isClienteAgi ? cpf : null,
+            valorTotal: valorImovel,
+            valorEntrada: valorEntrada,
+            prazo: prazoAnos,
+            rendaUsuario: rendaBruta,
+            rendaParticipante: rendaParticipante,
+            tipo: modalidade,
+        };
+
+        let result = null;
+        try {
+            const response = await fetch(`${API_BASE_URL}/simulacao`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dataToSend),
+            });
+            result = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(result.message || result.error || 'Falha na comunicação com o servidor de simulação.');
+            dadosSimulacao = { ...dataToSend, result };
+            displayResults(result, modalidade);
+        } catch (error) {
+            console.error('Erro na simulação:', error);
+            resultsPlaceholder.textContent = `Erro: ${error.message || 'desconhecido'}`;
+            resultsPlaceholder.classList.add('active');
+            resultsContent.classList.remove('active');
+        }
+    });
+
+    // -------------------- POPUP E ENVIO DE EMAIL --------------------
+    const togglePopup = () => emailPopup.classList.toggle('active');
+    btnEnviarEmail.addEventListener('click', () => {
+        if (!dadosSimulacao.result) { alert("Realize a simulação antes de enviar."); return; }
+        togglePopup();
+    });
+    popupCloseBtn.addEventListener('click', togglePopup);
+    emailPopup.addEventListener('click', e => { if (e.target === emailPopup) togglePopup(); });
+
+    emailForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email-input').value;
+        const submitButton = emailForm.querySelector('.cta-button');
+        const simulacaoId = dadosSimulacao.result?.id;
+        if (!simulacaoId) { alert("ID da simulação não encontrado."); return; }
+
+        submitButton.textContent = 'Enviando...';
+        submitButton.disabled = true;
+        try {
+            const url = `${API_BASE_URL}/simulacao/enviarSimulacao/${email}/${simulacaoId}`;
+            const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+            if (!response.ok) throw new Error(await response.text().catch(() => 'Erro desconhecido'));
+            alert(`Simulação enviada para ${email}!`);
+            togglePopup();
+            emailForm.reset();
+        } catch (error) {
+            console.error('Erro no envio de e-mail:', error);
+            alert(`Falha ao enviar: ${error.message}`);
+        } finally {
+            submitButton.textContent = 'Enviar';
+            submitButton.disabled = false;
+        }
+    });
+
+    // -------------------- GERAR PDF --------------------
+    btnBaixarPDF.addEventListener('click', async () => {
+        const simulacaoId = dadosSimulacao.result?.id;
+        if (!simulacaoId) { alert("Realize a simulação antes de gerar PDF."); return; }
+        try {
+            const response = await fetch(`${API_BASE_URL}/simulacao/baixarSimulacao/${simulacaoId}`, { method: 'POST' });
+            if (!response.ok) { alert(`Falha ao gerar PDF: ${response.statusText}`); return; }
+            const blob = await response.blob();
+            const urlBlob = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = urlBlob;
+            a.download = `simulacao_agimob_${simulacaoId}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(urlBlob);
+            alert("PDF gerado com sucesso!");
+        } catch (error) {
+            console.error('Erro ao baixar PDF:', error);
+            alert("Erro de rede ao tentar baixar o PDF.");
+        }
+    });
+
+});
