@@ -9,20 +9,21 @@
 
     </head>
 <body>
+    <div style="text-align: center;">
+    <img src="https://static.agibank.com.br/web_public/agi-ui/img/caquinhos-60px.png" alt="Ícone de Caco" width="1260">
+</div>
 
     <header class="header">
         <nav class="navbar container">
             <a href="#" class="nav-logo">
-                AGIMOB
-                <span class="i-container">
-                    <span class="logo-dot"></span>
-                </span>
+                <a href="#" class="nav-logo">AG<span class="i-container">I<span class="logo-dot"></span></span>MOB</a>
             </a>
             <ul class="nav-menu">
                 <li><a href="#hero" class="nav-link">Início</a></li>
                 <li><a href="#how-it-works" class="nav-link">Entenda</a></li>
                 <li><a href="#simulator" class="nav-link">Simulador</a></li>
                 <li><a href="#benefits" class="nav-link">Vantagens</a></li>
+                <li><a href="#cliente-agi" class="nav-link">Seja um Cliente</a></li>
             </ul>
             <div class="hamburger">
                 <span class="bar"></span>
@@ -119,6 +120,64 @@
                             </div>
                         </div>
 
+                        <div class="carousel-slide">
+                            <div class="slide-header">
+                                <div class="header-text">
+                                    <h3>Juros</h3>
+                                    <span>O custo do dinheiro</span>
+                                    <p>Taxas que remuneram o banco pelo empréstimo</p>
+                                </div>
+                            </div>
+                            <div class="slide-body">
+                                <h4>Como Funciona</h4>
+                                <div class="comparison-grid">
+                                    <div class="comparison-column">
+                                        <h5></h5>
+                                        <ul class="advantages-list">
+                                            <li><i class="fas fa-check-circle"></i> Calculados sobre o saldo devedor restante</li>
+                                            <li><i class="fas fa-check-circle"></i> Podem ser pré-fixados (taxa fixa) ou pós-fixados (variáveis)</li>
+                                            <li><i class="fas fa-check-circle"></i> Compostos por Custo Efetivo Total (CET)</li>
+                                            <li><i class="fas fa-check-circle"></i> Principal fator que encarece o financiamento</li>
+                                        </ul>
+                                    </div>
+                                    <div class="comparison-column">
+                                        <h5></h5>
+                                        <ul class="disadvantages-list">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide">
+                            <div class="slide-header">
+                                <div class="header-text">
+                                    <h3>Amortização</h3>
+                                    <span>Pagamento da Dívida Real</span>
+                                    <p>Parte da parcela que reduz o valor que você pegou emprestado</p>
+                                </div>
+                            </div>
+                            <div class="slide-body">
+                                <h4>Como Funciona</h4>
+                                <div class="comparison-grid">
+                                    <div class="comparison-column">
+                                        <h5></h5>
+                                        <ul class="advantages-list">
+                                            <li><i class="fas fa-check-circle"></i> Pagamento do valor principal, excluindo juros</li>
+                                            <li><i class="fas fa-check-circle"></i> Amortização extraordinária abate o saldo devedor</li>
+                                            <li><i class="fas fa-check-circle"></i> Pode ser usada para reduzir prazo ou valor da parcela</li>
+                                            <li><i class="fas fa-check-circle"></i> Fundamental para economizar em juros</li>
+                                        </ul>
+                                    </div>
+                                    <div class="comparison-column">
+                                        <h5></h5>
+                                        <ul class="disadvantages-list">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 
@@ -126,6 +185,8 @@
                     <button class="carousel-button" id="prev-button" disabled>Anterior</button>
                     <div class="carousel-pagination" id="carousel-pagination">
                         <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
                         <span class="dot"></span>
                     </div>
                     <button class="carousel-button" id="next-button">Próximo</button>
@@ -147,7 +208,7 @@
                     <div class="calculator-form">
                         <div class="form-header">
                             <div class="form-icon">
-                                <img src="icons/calculator.svg" alt="Ícone Calculadora">
+                                <img src="https://api.iconify.design/ph:calculator-fill.svg?color=%2377DF40" alt="Ícone de Calculadora">
                             </div>
                             <h3>Dados para Simulação</h3>
                             <p>Forneça as informações financeiras e do imóvel.</p>
@@ -208,7 +269,7 @@
                             </div>
 
                             <button type="submit" class="cta-button">
-                                <img src="icons/chart.svg" alt="Ícone Gráfico">
+                                <img src="https://api.iconify.design/ph:paper-plane-tilt-fill.svg?color=white" alt="Ícone de avião de papel">
                                 Simular Condições Agora
                             </button>
                         </form>
@@ -217,7 +278,7 @@
                     <div class="calculator-results" id="resultado-simulacao">
                         
                         <div class="results-placeholder active">
-                            <img src="icons/chart-bar.svg" alt="Ícone Gráfico de Barras">
+                            <img src="https://api.iconify.design/ph:files-fill.svg?color=%23DDE4EE" alt="Ícone de arquivos">
                             <h3>Aguardando Simulação</h3>
                             <p>Preencha os campos ao lado e clique em 'Simular' para ver suas condições.</p>
                         </div>
@@ -296,29 +357,28 @@
                 <div class="features-grid">
                     <div class="feature-item">
                         <div class="feature-icon green-bg">
-                            <img src="icons/scale.svg" alt="Comparação">
+                            <img src="https://api.iconify.design/ph:calculator-fill.svg?color=%2377DF40" alt="Ícone de Calculadora">
                         </div>
                         <h3>Comparação Completa</h3>
                         <p>Compare lado a lado as modalidades SAC e PRICE em uma única tela, otimizando sua escolha.</p>
                     </div>
                     <div class="feature-item">
-                        <div class="feature-icon blue-bg">
-                            <img src="icons/lock.svg" alt="Segurança">
+                        <div class="feature-icon green-bg">
+                            <img src="https://api.iconify.design/ph:shield-check-fill.svg?color=%2377DF40" alt="Ícone de Escudo">
                         </div>
                         <h3>Segurança de Dados</h3>
                         <p>Sua simulação é protegida e não compartilhamos seus dados sem sua autorização expressa.</p>
                     </div>
                     <div class="feature-item">
                         <div class="feature-icon green-bg">
-                            <img src="icons/email.svg" alt="Relatório">
+                            <img src="https://api.iconify.design/ph:chart-line-up-bold.svg?color=%230066F2" alt="Ícone de Gráfico">
                         </div>
                         <h3>Relatórios por E-mail</h3>
                         <p>Receba o resumo completo da sua simulação diretamente na sua caixa de entrada para análise.</p>
                     </div>
                     <div class="feature-item">
                         <div class="feature-icon blue-bg">
-                            <img src="/icons/fast.svg" alt="Velocidade">
-                            <img src="icons/fast.svg" alt="Velocidade">
+                            <img src="https://api.iconify.design/ph:clock-fill.svg?color=%230066F2" alt="Ícone de Relógio">
                         </div>
                         <h3>Cálculo Instantâneo</h3>
                         <p>Integração direta com o backend para um cálculo rápido e preciso, sem demoras.</p>
@@ -340,7 +400,7 @@
                     <div class="benefit-card">
                         <div class="benefit-header">
                             <div class="benefit-icon">
-                                <img src="icons/dollar.svg" alt="Cálculo de Juros">
+                                <img src="https://api.iconify.design/ph:shield-check-fill.svg?color=white" alt="Ícone de Escudo">
                             </div>
                             <h4>Seguro Incluído Gratuitamente</h4>
                         </div>
@@ -350,7 +410,7 @@
                     <div class="benefit-card">
                         <div class="benefit-header">
                             <div class="benefit-icon">
-                                <img src="icons/dollar.svg" alt="Cálculo de Juros">
+                                <img src="https://api.iconify.design/ph:lightning-fill.svg?color=white" alt="Ícone de Raio">
                             </div>
                             <h4>Parcelas Flexíveis</h4>
                         </div>
@@ -360,7 +420,7 @@
                     <div class="benefit-card">
                         <div class="benefit-header">
                             <div class="benefit-icon">
-                                <img src="icons/dollar.svg" alt="Cálculo de Juros">
+                                <img src="https://api.iconify.design/ph:arrows-clockwise-fill.svg?color=white" alt="Ícone de Recarregar">
                             </div>
                             <h4>Transparência nos Juros Totais</h4>
                         </div>
@@ -370,8 +430,7 @@
                     <div class="benefit-card">
                         <div class="benefit-header">
                             <div class="benefit-icon">
-                                <img src="/icons/ruler.svg" alt="Régua">
-                                <img src="icons/ruler.svg" alt="Régua">
+                                <img src="https://api.iconify.design/ph:lock-fill.svg?color=white" alt="Ícone de Cadeado">
                             </div>
                             <h4>Análise de Renda e Limite de Crédito</h4>
                         </div>

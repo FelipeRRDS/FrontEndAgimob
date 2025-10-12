@@ -1,10 +1,11 @@
 'use strict';
 
-const API_BASE_URL = 'http://localhost:8080/agimob'; 
-
+const API_BASE_URL = 'http://localhost:8080/agimob';
 let dadosSimulacao = {};
 
-// -------------------- FUNÇÕES AUXILIARES --------------------
+// ======================================================================
+// FUNÇÕES AUXILIARES
+// ======================================================================
 const parseCurrency = (value) => {
     if (typeof value === 'string') {
         return parseFloat(value.replace(/\./g, '').replace(',', '.').replace(/[^\d.-]/g, '')) || 0;
@@ -26,7 +27,9 @@ const formatPercentage = (value) => {
     });
 };
 
-// -------------------- DOMContentLoaded --------------------
+// ======================================================================
+// DOMContentLoaded
+// ======================================================================
 document.addEventListener('DOMContentLoaded', () => {
 
     // -------------------- CARROSSEL --------------------
@@ -38,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const dots = Array.from(paginationContainer.children);
 
     let slideIndex = 0;
-
     const moveSlide = (index) => {
         track.style.transform = 'translateX(-' + index * slides[0].offsetWidth + 'px)';
         slideIndex = index;
@@ -46,17 +48,14 @@ document.addEventListener('DOMContentLoaded', () => {
         nextButton.disabled = slideIndex === slides.length - 1;
         dots.forEach((dot, i) => dot.classList.toggle('active', i === slideIndex));
     };
-
     prevButton.addEventListener('click', () => { if (slideIndex > 0) moveSlide(slideIndex - 1); });
     nextButton.addEventListener('click', () => { if (slideIndex < slides.length - 1) moveSlide(slideIndex + 1); });
-
     moveSlide(0);
 
-    // -------------------- CALCULADORA --------------------
+    // -------------------- FORMULÁRIO --------------------
     const form = document.getElementById('financing-form');
     if (!form) return;
 
-    // Elementos
     const checkboxAgi = document.getElementById('sou-cliente-agi');
     const cpfContainer = document.getElementById('cpf-container');
     const cpfInput = document.getElementById('cpf-usuario');
@@ -75,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailForm = document.getElementById('email-form');
     const popupCloseBtn = document.querySelector('.popup-close');
 
-    // -------------------- MASCARA DE CPF E TOGGLE --------------------
+    // -------------------- TOGGLE CPF / PARTICIPANTE --------------------
     checkboxAgi.addEventListener('change', () => {
         if (checkboxAgi.checked) {
             cpfContainer.classList.remove('hidden');
@@ -98,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // -------------------- FORMATACAO DE CURRENCY INPUTS --------------------
+    // -------------------- FORMATAR INPUTS --------------------
     const formatCurrencyInput = (input) => {
         let value = input.value.replace(/\D/g, '');
         if (!value) { input.value = ''; return; }
@@ -107,28 +106,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('#valor-imovel, #valor-entrada, #renda-bruta, #renda-conjuge')
         .forEach(input => input.addEventListener('input', () => formatCurrencyInput(input)));
 
-    // -------------------- FUNÇÕES DE SCORE --------------------
-    async function buscarScorePorCpf(cpf) {
-        if (!cpf) return null;
-        try {
-            const response = await fetch(`${API_BASE_URL}/scoreApi/${cpf}`);
-            if (!response.ok) throw new Error(`Erro ao buscar score (status ${response.status})`);
-            const dados = await response.json();
-            console.log("✅ Score obtido:", dados);
-            return dados;
-        } catch (error) {
-            console.error("❌ Erro ao obter score:", error);
-            return null;
-        }
-    }
-
-    // -------------------- EXIBIR RESULTADOS --------------------
+    // ======================================================================
+    // EXIBIR RESULTADOS
+    // ======================================================================
     const displayResults = (result, modalidade) => {
         resultsPlaceholder.classList.remove('active');
         resultsContent.classList.add('active');
 
-        const infoSac = result.informacoesAdicionaisSac || result.informacoesAdicionais;
-        const infoPrice = result.informacoesAdicionaisPrice || result.informacoesAdicionais;
+        const infoSac = result.sac?.informacoesAdicionais || null;
+        const infoPrice = result.price?.informacoesAdicionais || null;
 
         const showSAC = modalidade.includes('SAC') && infoSac;
         const showPRICE = modalidade.includes('PRICE') && infoPrice;
@@ -151,18 +137,13 @@ document.addEventListener('DOMContentLoaded', () => {
         } else { resultadoPrice.style.display = 'none'; }
     };
 
-    // -------------------- SUBMISSÃO DO FORMULÁRIO --------------------
+    // ======================================================================
+    // SUBMISSÃO DO FORMULÁRIO
+    // ======================================================================
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
         const cpf = cpfInput.value;
-        let scoreDto = null;
-
-        if (cpf) {
-            scoreDto = await buscarScorePorCpf(cpf);
-            if (!scoreDto) alert("Não foi possível obter o score do usuário. A simulação continuará sem ele.");
-        }
-
         const valorImovel = parseCurrency(document.getElementById('valor-imovel').value);
         const valorEntrada = parseCurrency(document.getElementById('valor-entrada').value);
         const prazoAnos = parseInt(document.getElementById('prazo-anos').value) || 0;
@@ -186,26 +167,45 @@ document.addEventListener('DOMContentLoaded', () => {
             tipo: modalidade,
         };
 
-        let result = null;
         try {
             const response = await fetch(`${API_BASE_URL}/simulacao`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dataToSend),
             });
-            result = await response.json().catch(() => ({}));
-            if (!response.ok) throw new Error(result.message || result.error || 'Falha na comunicação com o servidor de simulação.');
+
+            const result = await response.json();
+            if (!response.ok) throw new Error(result.message || result.error || 'Erro ao criar simulação.');
+
             dadosSimulacao = { ...dataToSend, result };
+            console.log("✅ Simulação criada:", result);
+
+            // Busca score pelo ID da simulação
+            if (isClienteAgi && result.id) {
+                try {
+                    const scoreResponse = await fetch(`${API_BASE_URL}/scoreApi/${result.id}`);
+                    if (!scoreResponse.ok) throw new Error(`Erro ao buscar score (status ${scoreResponse.status})`);
+                    const scoreData = await scoreResponse.json();
+                    console.log("✅ Score vinculado à simulação:", scoreData);
+                } catch (scoreError) {
+                    console.error("❌ Erro ao obter score:", scoreError);
+                    alert("Não foi possível obter o score desta simulação.");
+                }
+            }
+
             displayResults(result, modalidade);
+
         } catch (error) {
-            console.error('Erro na simulação:', error);
+            console.error('❌ Erro na simulação:', error);
             resultsPlaceholder.textContent = `Erro: ${error.message || 'desconhecido'}`;
             resultsPlaceholder.classList.add('active');
             resultsContent.classList.remove('active');
         }
     });
 
-    // -------------------- POPUP E ENVIO DE EMAIL --------------------
+    // ======================================================================
+    // POPUP DE EMAIL
+    // ======================================================================
     const togglePopup = () => emailPopup.classList.toggle('active');
     btnEnviarEmail.addEventListener('click', () => {
         if (!dadosSimulacao.result) { alert("Realize a simulação antes de enviar."); return; }
@@ -239,7 +239,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // -------------------- GERAR PDF --------------------
+    // ======================================================================
+    // GERAR PDF
+    // ======================================================================
     btnBaixarPDF.addEventListener('click', async () => {
         const simulacaoId = dadosSimulacao.result?.id;
         if (!simulacaoId) { alert("Realize a simulação antes de gerar PDF."); return; }
@@ -261,5 +263,4 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Erro de rede ao tentar baixar o PDF.");
         }
     });
-
 });
