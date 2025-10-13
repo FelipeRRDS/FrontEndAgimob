@@ -18,14 +18,18 @@ const formatCurrency = (value) => {
     return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 };
 
-const formatPercentage = (value) => {
-    let numericValue = Number(value) || 0;
-    return numericValue.toLocaleString('pt-BR', {
-        style: 'percent',
-        minimumFractionDigits: 1,
+const formatarPorcentagem = (valor) => {
+    if (valor == null || isNaN(valor)) return '-';
+    
+    // Se o valor for 10, 50 ou 3000, ajusta para proporção
+    const ajustado = valor
+
+    return ajustado.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
         maximumFractionDigits: 2
     });
 };
+
 
 // ======================================================================
 // DOMContentLoaded
@@ -110,32 +114,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // EXIBIR RESULTADOS
     // ======================================================================
     const displayResults = (result, modalidade) => {
-        resultsPlaceholder.classList.remove('active');
-        resultsContent.classList.add('active');
+    resultsPlaceholder.classList.remove('active');
+    resultsContent.classList.add('active');
 
-        const infoSac = result.sac?.informacoesAdicionais || null;
-        const infoPrice = result.price?.informacoesAdicionais || null;
+    const infoSac = result.sac?.informacoesAdicionais || null;
+    const infoPrice = result.price?.informacoesAdicionais || null;
 
-        const showSAC = modalidade.includes('SAC') && infoSac;
-        const showPRICE = modalidade.includes('PRICE') && infoPrice;
+    // Mostrar SAC
+    if ((modalidade === 'SAC' || modalidade === 'AMBOS') && infoSac) {
+        document.getElementById('sac-primeira-parcela').textContent = formatCurrency(infoSac.primeiraParcela);
+        document.getElementById('sac-ultima-parcela').textContent = formatCurrency(infoSac.ultimaParcela);
+        document.getElementById('sac-total-juros').textContent = formatCurrency(infoSac.valorTotalJuros);
+        document.getElementById('sac-total-pago').textContent = formatCurrency(infoSac.valorTotalFinanciamento);
+        document.getElementById('sac-renda-comprometida').textContent = formatarPorcentagem(infoSac.rendaComprometida);
+        document.getElementById('diferenca-sacprice').textContent = formatCurrency(infoSac.diferencaPriceSac);
+        resultadoSAC.style.display = 'block';
+    } else {
+        resultadoSAC.style.display = 'none';
+    }
 
-        if (showSAC) {
-            document.getElementById('sac-primeira-parcela').textContent = formatCurrency(infoSac.primeiraParcela);
-            document.getElementById('sac-ultima-parcela').textContent = formatCurrency(infoSac.ultimaParcela);
-            document.getElementById('sac-total-juros').textContent = formatCurrency(infoSac.valorTotalJuros);
-            document.getElementById('sac-total-pago').textContent = formatCurrency(infoSac.valorTotalFinanciamento);
-            document.getElementById('sac-renda-comprometida').textContent = formatPercentage(infoSac.rendaComprometida);
-            resultadoSAC.style.display = 'block';
-        } else { resultadoSAC.style.display = 'none'; }
+    // Mostrar PRICE
+    if ((modalidade === 'PRICE' || modalidade === 'AMBOS') && infoPrice) {
+        document.getElementById('price-parcela-fixa').textContent = formatCurrency(infoPrice.primeiraParcela);
+        document.getElementById('price-total-juros').textContent = formatCurrency(infoPrice.valorTotalJuros);
+        document.getElementById('price-total-pago').textContent = formatCurrency(infoPrice.valorTotalFinanciamento);
+        document.getElementById('price-renda-comprometida').textContent = formatarPorcentagem(infoPrice.rendaComprometida);
+        document.getElementById('diferenca-pricesac').textContent = formatCurrency(infoPrice.diferencaPriceSac);
+        resultadoPrice.style.display = 'block';
+    } else {
+        resultadoPrice.style.display = 'none';
+    }
+};
 
-        if (showPRICE) {
-            document.getElementById('price-parcela-fixa').textContent = formatCurrency(infoPrice.primeiraParcela);
-            document.getElementById('price-total-juros').textContent = formatCurrency(infoPrice.valorTotalJuros);
-            document.getElementById('price-total-pago').textContent = formatCurrency(infoPrice.valorTotalFinanciamento);
-            document.getElementById('price-renda-comprometida').textContent = formatPercentage(infoPrice.rendaComprometida);
-            resultadoPrice.style.display = 'block';
-        } else { resultadoPrice.style.display = 'none'; }
-    };
 
     // ======================================================================
     // SUBMISSÃO DO FORMULÁRIO
@@ -183,10 +193,21 @@ document.addEventListener('DOMContentLoaded', () => {
             // Busca score pelo ID da simulação
             if (isClienteAgi && result.id) {
                 try {
-                    const scoreResponse = await fetch(`${API_BASE_URL}/scoreApi/${result.id}`);
+                    const scoreResponse = await fetch(`${API_BASE_URL}/scoreApi/${cpf}`);
                     if (!scoreResponse.ok) throw new Error(`Erro ao buscar score (status ${scoreResponse.status})`);
                     const scoreData = await scoreResponse.json();
                     console.log("✅ Score vinculado à simulação:", scoreData);
+
+                    const scoreContainer = document.getElementById('resultado-score');
+                    const scoreValor = document.getElementById('scorecpf');
+
+                    if (scoreData && scoreData.score != null) {
+                        scoreValor.textContent = `${scoreData.score}`;
+                        scoreContainer.style.display = 'block';
+                    } else {
+                            scoreContainer.style.display = 'none';
+                        }
+
                 } catch (scoreError) {
                     console.error("❌ Erro ao obter score:", scoreError);
                     alert("Não foi possível obter o score desta simulação.");
