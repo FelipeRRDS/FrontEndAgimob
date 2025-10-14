@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const infoClienteAgiPrice = result.price?.informacoesAdicionaisClienteAgi || null;
 
     // Mostrar SAC
-    if ((modalidade === 'SAC' || modalidade === 'AMBOS') && infoSac) {
+    if ((modalidade === 'SAC' || modalidade === "AMBOS") && infoSac && infoClienteAgiSac == null) {
         document.getElementById('sac-primeira-parcela').textContent = formatCurrency(infoSac.primeiraParcela);
         document.getElementById('sac-ultima-parcela').textContent = formatCurrency(infoSac.ultimaParcela);
         document.getElementById('sac-total-juros').textContent = formatCurrency(infoSac.valorTotalJuros);
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultadoSAC.style.display = 'none';
     }
 
-    if ((modalidade === 'SAC' || modalidade === 'AMBOS') && infoClienteAgiSac) {
+    if ((modalidade === 'AMBOS') && infoClienteAgiSac) {
         document.getElementById('taxa-clienteAgi-sac').textContent = formatarPorcentagem(infoClienteAgiSac.taxa*100) + '%';
         document.getElementById('sac-primeira-parcela-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.primeiraParcela);
         document.getElementById('sac-ultima-parcela-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.ultimaParcela);
@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Mostrar PRICE
-    if ((modalidade === 'PRICE' || modalidade === 'AMBOS') && infoPrice) {
+    if ((modalidade === 'PRICE'|| modalidade=== "AMBOS") && infoPrice && infoClienteAgiPrice == null) {
         document.getElementById('price-parcela-fixa').textContent = formatCurrency(infoPrice.primeiraParcela);
         document.getElementById('price-total-juros').textContent = formatCurrency(infoPrice.valorTotalJuros);
         document.getElementById('price-total-pago').textContent = formatCurrency(infoPrice.valorTotalFinanciamento);
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultadoPrice.style.display = 'none';
     }
 
-    if ((modalidade === 'PRICE' || modalidade === 'AMBOS') && infoClienteAgiPrice) {
+    if ((modalidade === 'AMBOS') && infoClienteAgiPrice) {
         document.getElementById('taxa-clienteAgi-price').textContent = formatarPorcentagem(infoClienteAgiPrice.taxa*100) + '%';
         document.getElementById('price-parcela-fixa-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.primeiraParcela);
         document.getElementById('price-total-juros-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.valorTotalJuros);
@@ -269,24 +269,46 @@ document.addEventListener('DOMContentLoaded', () => {
     // GERAR PDF
     // ======================================================================
     btnBaixarPDF.addEventListener('click', async () => {
-        const simulacaoId = dadosSimulacao.result?.id;
-        if (!simulacaoId) { alert("Realize a simulação antes de gerar PDF."); return; }
-        try {
-            const response = await fetch(`${API_BASE_URL}/simulacao/baixarSimulacao/${simulacaoId}`, { method: 'POST' });
-            if (!response.ok) { alert(`Falha ao gerar PDF: ${response.statusText}`); return; }
-            const blob = await response.blob();
-            const urlBlob = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = urlBlob;
-            a.download = `simulacao_agimob_${simulacaoId}.pdf`;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
-            window.URL.revokeObjectURL(urlBlob);
-            alert("PDF gerado com sucesso!");
-        } catch (error) {
-            console.error('Erro ao baixar PDF:', error);
-            alert("Erro de rede ao tentar baixar o PDF.");
+    const simulacaoId = dadosSimulacao.result?.id;
+    if (!simulacaoId) { 
+        alert("Realize a simulação antes de gerar PDF."); 
+        return; 
+    }
+
+    const textoOriginal = btnBaixarPDF.textContent;
+    btnBaixarPDF.disabled = true;
+    btnBaixarPDF.textContent = "📄 Baixando PDF...";
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/simulacao/baixarSimulacao/${simulacaoId}`, { method: 'POST' });
+        if (!response.ok) { 
+            alert(`Falha ao gerar PDF: ${response.statusText}`); 
+            btnBaixarPDF.textContent = textoOriginal;
+            btnBaixarPDF.disabled = false;
+            return; 
         }
-    });
+
+        const blob = await response.blob();
+        const urlBlob = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = urlBlob;
+        a.download = `simulacao_agimob_${simulacaoId}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(urlBlob);
+
+        btnBaixarPDF.textContent = "✅ PDF baixado!";
+        setTimeout(() => {
+            btnBaixarPDF.textContent = textoOriginal;
+            btnBaixarPDF.disabled = false;
+        }, 2000);
+
+    } catch (error) {
+        console.error('Erro ao baixar PDF:', error);
+        alert("Erro de rede ao tentar baixar o PDF.");
+        btnBaixarPDF.textContent = textoOriginal;
+        btnBaixarPDF.disabled = false;
+    }
+});
 });
