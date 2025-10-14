@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('sac-total-pago').textContent = formatCurrency(infoSac.valorTotalFinanciamento);
 
         //mudar cor caso renda comprometida seja maior que 30!
-        const elementoRendaComprometida = document.getElementById('sac-renda-comprometida');
+        var elementoRendaComprometida = document.getElementById('sac-renda-comprometida');
         elementoRendaComprometida.textContent = formatarPorcentagem(infoSac.rendaComprometida);
 
         if(infoSac.rendaComprometida > 30){
@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('sac-total-pago-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.valorTotalFinanciamento);
 
         //mudar cor caso renda comprometida seja maior que 30!
-        const elementoRendaComprometida = document.getElementById('sac-renda-comprometida-clienteAgi');
+        var elementoRendaComprometida = document.getElementById('sac-renda-comprometida-clienteAgi');
         elementoRendaComprometida.textContent = formatarPorcentagem(infoClienteAgiSac.rendaComprometida);
 
         if(infoSac.rendaComprometida > 30){
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('price-total-juros').textContent = formatCurrency(infoPrice.valorTotalJuros);
         document.getElementById('price-total-pago').textContent = formatCurrency(infoPrice.valorTotalFinanciamento);
 
-        const elementoRendaComprometida = document.getElementById('price-renda-comprometida').textContent;
+        var elementoRendaComprometida = document.getElementById('price-renda-comprometida').textContent;
         elementoRendaComprometida = formatarPorcentagem(infoPrice.rendaComprometida);
 
         if (infoPrice.rendaComprometida > 30){
@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('price-total-juros-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.valorTotalJuros);
         document.getElementById('price-total-pago-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.valorTotalFinanciamento);
 
-        const elementoRendaComprometida = document.getElementById('price-renda-comprometida-clienteAgi');
+        var elementoRendaComprometida = document.getElementById('price-renda-comprometida-clienteAgi');
         elementoRendaComprometida = formatarPorcentagem(infoClienteAgiPrice.rendaComprometida);
 
         if(infoClienteAgiPrice.rendaComprometida > 30){
