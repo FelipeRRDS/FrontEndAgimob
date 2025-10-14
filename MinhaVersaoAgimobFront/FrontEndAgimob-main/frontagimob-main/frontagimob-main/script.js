@@ -70,7 +70,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultsPlaceholder = resultadoDiv.querySelector('.results-placeholder');
     const resultsContent = resultadoDiv.querySelector('.results-content');
     const resultadoSAC = document.getElementById('resultado-sac');
+    const resultadoSacClienteAgi = document.getElementById('resultado-sac-clienteAgi');
     const resultadoPrice = document.getElementById('resultado-price');
+    const resultadoPriceClienteAgi = document.getElementById('resultado-price-clienteAgi');
 
     const btnBaixarPDF = document.getElementById('btn-baixar-pdf');
     const btnEnviarEmail = document.getElementById('btn-enviar-email');
@@ -119,6 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const infoSac = result.sac?.informacoesAdicionais || null;
     const infoPrice = result.price?.informacoesAdicionais || null;
+    const infoClienteAgiSac = result.sac?.informacoesAdicionaisClienteAgi || null;
+    const infoClienteAgiPrice = result.price?.informacoesAdicionaisClienteAgi || null;
 
     // Mostrar SAC
     if ((modalidade === 'SAC' || modalidade === 'AMBOS') && infoSac) {
@@ -133,6 +137,19 @@ document.addEventListener('DOMContentLoaded', () => {
         resultadoSAC.style.display = 'none';
     }
 
+    if ((modalidade === 'SAC' || modalidade === 'AMBOS') && infoClienteAgiSac) {
+        document.getElementById('taxa-clienteAgi-sac').textContent = formatarPorcentagem(infoClienteAgiSac.taxa*100) + '%';
+        document.getElementById('sac-primeira-parcela-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.primeiraParcela);
+        document.getElementById('sac-ultima-parcela-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.ultimaParcela);
+        document.getElementById('sac-total-juros-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.valorTotalJuros);
+        document.getElementById('sac-total-pago-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.valorTotalFinanciamento);
+        document.getElementById('sac-renda-comprometida-clienteAgi').textContent = formatarPorcentagem(infoClienteAgiSac.rendaComprometida);
+        document.getElementById('diferenca-sacprice-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.diferencaPriceSac);
+        resultadoSacClienteAgi.style.display = 'block';
+    } else {
+        resultadoSacClienteAgi.style.display = 'none';
+    }
+
     // Mostrar PRICE
     if ((modalidade === 'PRICE' || modalidade === 'AMBOS') && infoPrice) {
         document.getElementById('price-parcela-fixa').textContent = formatCurrency(infoPrice.primeiraParcela);
@@ -143,6 +160,18 @@ document.addEventListener('DOMContentLoaded', () => {
         resultadoPrice.style.display = 'block';
     } else {
         resultadoPrice.style.display = 'none';
+    }
+
+    if ((modalidade === 'PRICE' || modalidade === 'AMBOS') && infoClienteAgiPrice) {
+        document.getElementById('taxa-clienteAgi-price').textContent = formatarPorcentagem(infoClienteAgiPrice.taxa*100) + '%';
+        document.getElementById('price-parcela-fixa-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.primeiraParcela);
+        document.getElementById('price-total-juros-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.valorTotalJuros);
+        document.getElementById('price-total-pago-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.valorTotalFinanciamento);
+        document.getElementById('price-renda-comprometida-clienteAgi').textContent = formatarPorcentagem(infoClienteAgiPrice.rendaComprometida);
+        document.getElementById('diferenca-pricesac-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.diferencaPriceSac);
+        resultadoPriceClienteAgi.style.display = 'block';
+    } else {
+        resultadoPriceClienteAgi.style.display = 'none';
     }
 };
 
@@ -189,30 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             dadosSimulacao = { ...dataToSend, result };
             console.log("✅ Simulação criada:", result);
-
-            // Busca score pelo ID da simulação
-            if (isClienteAgi && result.id) {
-                try {
-                    const scoreResponse = await fetch(`${API_BASE_URL}/scoreApi/${cpf}`);
-                    if (!scoreResponse.ok) throw new Error(`Erro ao buscar score (status ${scoreResponse.status})`);
-                    const scoreData = await scoreResponse.json();
-                    console.log("✅ Score vinculado à simulação:", scoreData);
-
-                    const scoreContainer = document.getElementById('resultado-score');
-                    const scoreValor = document.getElementById('scorecpf');
-
-                    if (scoreData && scoreData.score != null) {
-                        scoreValor.textContent = `${scoreData.score}`;
-                        scoreContainer.style.display = 'block';
-                    } else {
-                            scoreContainer.style.display = 'none';
-                        }
-
-                } catch (scoreError) {
-                    console.error("❌ Erro ao obter score:", scoreError);
-                    alert("Não foi possível obter o score desta simulação.");
-                }
-            }
 
             displayResults(result, modalidade);
 
