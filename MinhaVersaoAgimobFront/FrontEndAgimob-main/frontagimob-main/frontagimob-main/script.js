@@ -130,7 +130,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('sac-ultima-parcela').textContent = formatCurrency(infoSac.ultimaParcela);
         document.getElementById('sac-total-juros').textContent = formatCurrency(infoSac.valorTotalJuros);
         document.getElementById('sac-total-pago').textContent = formatCurrency(infoSac.valorTotalFinanciamento);
-        document.getElementById('sac-renda-comprometida').textContent = formatarPorcentagem(infoSac.rendaComprometida);
+
+        //mudar cor caso renda comprometida seja maior que 30!
+        var elementoRendaComprometida = document.getElementById('sac-renda-comprometida');
+        elementoRendaComprometida.textContent = formatarPorcentagem(infoSac.rendaComprometida);
+
+        if(infoSac.rendaComprometida > 30){
+
+            elementoRendaComprometida.style.color = 'red';
+        }else{
+            elementoRendaComprometida.style.color='';
+        }
+
         document.getElementById('diferenca-sacprice').textContent = formatCurrency(infoSac.diferencaPriceSac);
         resultadoSAC.style.display = 'block';
     } else {
@@ -143,7 +154,18 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('sac-ultima-parcela-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.ultimaParcela);
         document.getElementById('sac-total-juros-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.valorTotalJuros);
         document.getElementById('sac-total-pago-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.valorTotalFinanciamento);
-        document.getElementById('sac-renda-comprometida-clienteAgi').textContent = formatarPorcentagem(infoClienteAgiSac.rendaComprometida);
+
+        //mudar cor caso renda comprometida seja maior que 30!
+        var elementoRendaComprometida = document.getElementById('sac-renda-comprometida-clienteAgi');
+        elementoRendaComprometida.textContent = formatarPorcentagem(infoClienteAgiSac.rendaComprometida);
+
+        if(infoSac.rendaComprometida > 30){
+
+            elementoRendaComprometida.style.color = 'red';
+        }else{
+            elementoRendaComprometida.style.color='';
+        }
+
         document.getElementById('diferenca-sacprice-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.diferencaPriceSac);
         resultadoSacClienteAgi.style.display = 'block';
     } else {
@@ -155,6 +177,16 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('price-parcela-fixa').textContent = formatCurrency(infoPrice.primeiraParcela);
         document.getElementById('price-total-juros').textContent = formatCurrency(infoPrice.valorTotalJuros);
         document.getElementById('price-total-pago').textContent = formatCurrency(infoPrice.valorTotalFinanciamento);
+
+        var elementoRendaComprometida = document.getElementById('price-renda-comprometida').textContent;
+        elementoRendaComprometida = formatarPorcentagem(infoPrice.rendaComprometida);
+
+        if (infoPrice.rendaComprometida > 30){
+            elementoRendaComprometida.style.color='red';
+        }else{
+            elementoRendaComprometida.style.color='';
+        }
+
         document.getElementById('price-renda-comprometida').textContent = formatarPorcentagem(infoPrice.rendaComprometida);
         document.getElementById('diferenca-pricesac').textContent = formatCurrency(infoPrice.diferencaPriceSac);
         resultadoPrice.style.display = 'block';
@@ -167,6 +199,15 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('price-parcela-fixa-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.primeiraParcela);
         document.getElementById('price-total-juros-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.valorTotalJuros);
         document.getElementById('price-total-pago-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.valorTotalFinanciamento);
+
+        var elementoRendaComprometida = document.getElementById('price-renda-comprometida-clienteAgi');
+        elementoRendaComprometida = formatarPorcentagem(infoClienteAgiPrice.rendaComprometida);
+
+        if(infoClienteAgiPrice.rendaComprometida > 30){
+            elementoRendaComprometida.style.color='red';
+        }else{
+            elementoRendaComprometida.style.color='';
+        }
         document.getElementById('price-renda-comprometida-clienteAgi').textContent = formatarPorcentagem(infoClienteAgiPrice.rendaComprometida);
         document.getElementById('diferenca-pricesac-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.diferencaPriceSac);
         resultadoPriceClienteAgi.style.display = 'block';
