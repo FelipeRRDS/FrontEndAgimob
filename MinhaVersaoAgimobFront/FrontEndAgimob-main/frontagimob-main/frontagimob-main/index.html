@@ -10,8 +10,12 @@
     </head>
 <body>
     <div style="text-align: center;">
-    <img src="https://static.agibank.com.br/web_public/agi-ui/img/caquinhos-60px.png" alt="Ícone de Caco" width="1260">
-</div>
+        <img 
+            src="https://static.agibank.com.br/web_public/agi-ui/img/caquinhos-60px.png" 
+            alt="Ícone de Caco" 
+            style="width: 100%; max-width: 1260px; height: auto;">
+    </div>
+</body>
 
     <header class="header">
         <nav class="navbar container">
@@ -264,7 +268,7 @@
 
                             <div class="form-group">
                                 <label for="prazo-anos">Prazo Desejado (Anos)</label>
-                                <input type="number" id="prazo-anos" name="prazo-anos" min="1" max="35" value="30" required>
+                                <input type="number" id="prazo-anos" name="prazo-anos" min="1" max="35" placeholder="De 1 a 35 anos" required>
                                 <small>Prazo máximo de financiamento é 35 anos.</small>
                             </div>
                             
@@ -312,7 +316,7 @@
                         <div class="results-content">
                             
                             <div class="result-card" id="resultado-sac">
-                                <h4>Tabela do Tipo - SAC (Amortização Constante)</h4>
+                                <h4>SAC (Amortização Constante)</h4>
                                 <p>Primeira Parcela: <strong id="sac-primeira-parcela">R$ -</strong></p>
                                 <p>Última Parcela: <strong id="sac-ultima-parcela">R$ -</strong></p>
                                 <p>Total de Juros: <strong id="sac-total-juros">R$ -</strong></p>
@@ -322,18 +326,18 @@
                             </div>
 
                             <div class="result-card hidden" id="resultado-sac-clienteAgi">
-                                <h4>SAC (Taxa Cliente Agi)</h4>
+                                <h4>SAC</h4>
                                 <p>Taxa AGI de até: <strong id="taxa-clienteAgi-sac"> </strong></p>
                                 <p>Primeira Parcela: <strong id="sac-primeira-parcela-clienteAgi">R$ -</strong></p>
                                 <p>Última Parcela: <strong id="sac-ultima-parcela-clienteAgi">R$ -</strong></p>
                                 <p>Total de Juros: <strong id="sac-total-juros-clienteAgi">R$ -</strong></p>
                                 <p>Renda Comprometida: <strong id="sac-renda-comprometida-clienteAgi"></strong><b>%</b></p>
                                 <p>Total Pago ao Final: <strong id="sac-total-pago-clienteAgi">R$ -</strong></p>
-                                <p style="color: #0066F2;">Você economiza até: <strong id="diferenca-sacprice-clienteAgi">R$ -</strong></p>
+                                <p style="color: #0066F2;">Cliente AGI economiza até: <strong id="diferenca-sacprice-clienteAgi">R$ -</strong></p>
                             </div>
 
                             <div class="result-card" id="resultado-price">
-                                <h4>Tabela do Tipo - PRICE (Parcelas Fixas)</h4>
+                                <h4>PRICE (Parcelas Fixas)</h4>
                                 <p>Parcela Fixa Mensal: <strong id="price-parcela-fixa">R$ -</strong></p>
                                 <p>Total de Juros: <strong id="price-total-juros">R$ -</strong></p>
                                 <p>Renda Comprometida: <strong id="price-renda-comprometida"></strong><b>%</b></p>
@@ -342,21 +346,20 @@
                             </div>
 
                             <div class="result-card hidden" id="resultado-price-clienteAgi">
-                                <h4>PRICE (Taxa Cliente Agi)</h4>
+                                <h4>PRICE</h4>
                                 <p>Taxa AGI de até: <strong id="taxa-clienteAgi-price"> </strong></p>
                                 <p>Parcela Fixa Mensal: <strong id="price-parcela-fixa-clienteAgi">R$ -</strong></p>
                                 <p>Total de Juros: <strong id="price-total-juros-clienteAgi">R$ -</strong></p>
                                 <p>Renda Comprometida: <strong id="price-renda-comprometida-clienteAgi"></strong><b>%</b></p>
                                 <p>Total Pago ao Final: <strong id="price-total-pago-clienteAgi">R$ -</strong></p>
-                                <p style="color: #0066F2;">Você economiza até: <strong id="diferenca-pricesac-clienteAgi">R$ -</strong></p>
+                                <p style="color: #0066F2;">Cliente AGI economiza até: <strong id="diferenca-pricesac-clienteAgi">R$ -</strong></p>
                             </div>
 
                             <div class="results-actions">
                                 <button class="action-button pdf" id="btn-baixar-pdf">Baixar PDF</button>
                                 <button class="action-button email" id="btn-enviar-email">Enviar por E-mail</button>
                             </div>
-                            <h4>Você possue um Score de: <strong id="scorecpf"></strong></h4>
-
+                    
                             <p class="disclaimer">* Valores são apenas estimativas e não constituem proposta de crédito.</p>
                             <p class="disclaimer">*Cálculos baseados em uma taxa de juros de 9% a.a.</p>
                         </div>
@@ -387,9 +390,11 @@
             </a>
         </div>
 
+       
+
         <!-- Vídeo de destaque -->
         <div class="video-container">
-            <video autoplay loop muted playsinline width="600">
+            <video autoplay loop muted playsinline width="100%" height="auto">
                 <source src="https://static.agibank.com.br/web_public/site/images-site/familia-banner-hero-site.webm" type="video/mp4">      
             </video>
         </div>
@@ -520,7 +525,7 @@
     <section>
         <div class="secao-acessibilidade" 
         id="acessibilidade-container" style="text-align: center;">
-        <img src="https://static.agibank.com.br/web_public/agi-ui/img/agi-campus-desktop.png" alt="Predio principal do agibank" width="600" style="padding-top: 5rem;">
+        <img src="https://static.agibank.com.br/web_public/agi-ui/img/agi-campus-desktop.png" alt="Predio principal do agibank" width="100%", height="auto" style="padding-top: 5rem;">
         <div style="padding-top: 7rem;">
             <h1>Contatos</h1>
             <h4>Como falar conosco?</h4>
