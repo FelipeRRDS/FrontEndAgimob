@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGIMOB - Simulador de Financiamento Imobiliário</title>
+
+    <link rel="stylesheet" href="style.css"> 
+
+    </head>
+<body>
+    <div style="text-align: center;">
+        <img 
+            src="https://static.agibank.com.br/web_public/agi-ui/img/caquinhos-60px.png" 
+            alt="Ícone de Caco" 
+            style="width: 100%; max-width: 1260rem; height: auto;">
+    </div>
+</body>
+
+    <header class="header">
+        <nav class="navbar container">
+            <a href="#" class="nav-logo">
+                <a href="#" class="nav-logo">AG<span class="i-container">I<span class="logo-dot"></span></span>MOB</a>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#hero" class="nav-link">Início</a></li>
+                <li><a href="#how-it-works" class="nav-link">Entenda</a></li>
+                <li><a href="#simulator" class="nav-link">Simulador</a></li>
+                <li><a href="#cliente-agi" class="nav-link">Seja um Cliente</a></li>
+                <li><a href="#benefits" class="nav-link">Vantagens</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        
+        <section id="hero" class="hero">
+            <div class="container">
+                <h1 class="hero-title">
+                    Simulador de Financiamento Imobiliário
+                </h1>
+                <p class="hero-subtitle">
+                    Compare sistemas SAC e PRICE, veja as melhores condições para clientes AGIMOB e tome decisões financeiras inteligentes.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#simulator" class="btn btn-primary">Acessar Calculadora</a>
+                    <a href="#benefits" class="btn btn-secondary">Conhecer Benefícios</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="how-it-works">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Como funcionam os sistemas de financiamento?</h2>
+                    <p class="section-subtitle">Conheça as diferenças entre os sistemas SAC e PRICE para escolher a melhor opção para seu perfil.</p>
+                </div>
+                <div class="carousel-container">
+                    <div class="carousel-track" id="carousel-track">
+
+                        <div class="carousel-slide">
+                            <div class="slide-header">
+                                <div class="header-text">
+                                    <h3>Sistema PRICE</h3>
+                                    <span>Tabela Price (Francês)</span>
+                                    <p>Parcelas fixas com amortização crescente do principal</p>
+                                </div>
+                            </div>
+                            <div class="slide-body">
+                                <h4>Como Funciona</h4>
+                                <ul class="details-list">
+                                    <li>Parcelas iguais durante todo o financiamento</li>
+                                    <li>Amortização crescente do saldo devedor</li>
+                                    <li>Maior previsibilidade do orçamento</li>
+                                    <li>Ideal para renda estável</li>
+                                </ul>
+                                <div class="comparison-grid">
+                                    <div class="comparison-column">
+                                        <h5>Vantagens</h5>
+                                        <ul class="advantages-list">
+                                            <li><i class="fas fa-check-circle"></i> Parcelas previsíveis e constantes</li>
+                                            <li><i class="fas fa-check-circle"></i> Facilita o planejamento financeiro</li>
+                                            <li><i class="fas fa-check-circle"></i> Menor comprometimento inicial</li>
+                                        </ul>
+                                    </div>
+                                    <div class="comparison-column">
+                                        <h5>Desvantagens</h5>
+                                        <ul class="disadvantages-list">
+                                            <li><i class="fas fa-times-circle"></i> Maior pagamento total de juros</li>
+                                            <li><i class="fas fa-times-circle"></i> Amortização mais lenta no início</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide">
+                            <div class="slide-header">
+                                <div class="header-text">
+                                    <h3>Sistema SAC</h3>
+                                    <span>Sistema de Amortização Constante</span>
+                                    <p>Atenção! Neste sistema, as parcelas diminuem com o tempo, mas o valor que você abate da dívida principal é sempre o mesmo.</p>
+                                </div>
+                            </div>
+                            <div class="slide-body">
+                                <h4>Como Funciona na Prática</h4>
+                                <ul class="details-list">
+                                    <li>O valor para abater a dívida (amortização) é fixo todo mês. Você paga o mesmo valor sempre.</li>
+                                    <li>O juro diminui a cada parcela, porque ele é calculado sobre o saldo que está caindo.</li>
+                                    <li>Por isso, o valor total da parcela fica cada vez menor com o tempo.</li>
+                                    <li>Ideal para quem pode pagar mais agora e quer ver a parcela diminuir.</li>
+                                </ul>
+                                <div class="comparison-grid">
+                                    <div class="comparison-column">
+                                        <h5>Vantagens</h5>
+                                        <ul class="advantages-list">
+                                            <li><i class="fas fa-check-circle"></i> Você paga menos juros no total do financiamento.</li>
+                                            <li><i class="fas fa-check-circle"></i> Sua dívida (saldo devedor) diminui muito mais rápido.</li>
+                                            <li><i class="fas fa-check-circle"></i> Excelente se você pensa em quitar ou adiantar parcelas.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="comparison-column">
+                                        <h5>Desvantagens</h5>
+                                        <ul class="disadvantages-list">
+                                            <li><i class="fas fa-times-circle"></i> As primeiras parcelas são as mais altas.</li>
+                                            <li><i class="fas fa-times-circle"></i> Pode exigir uma renda maior para a aprovação do financiamento no banco.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide">
+                            <div class="slide-header">
+                                <div class="header-text">
+                                    <h3>Juros</h3>
+                                    <span>O preço que você paga pelo dinheiro emprestado</span>
+                                    <p>É o valor extra que o banco cobra para te liberar o empréstimo ou financiamento.</p>
+                                </div>
+                            </div>
+                            <div class="slide-body">
+                                <h4>Como Funciona na Prática</h4>
+                                <ul class="details-list">
+                                    <li>Os juros são calculados todo mês em cima do valor que você ainda deve (o saldo devedor restante).</li>
+                                    <li>Podem ser de dois tipos: Pré-fixados (taxa fixa que não muda) ou Pós-fixados (taxa que pode variar).</li>
+                                    <li>O valor final de tudo é o Custo Efetivo Total (CET), que inclui juros mais taxas e seguros.</li>
+                                    <li>É o principal motivo que faz o valor total do seu financiamento ficar mais caro no fim.</li>
+                                </ul>
+                                <div class="comparison-grid">
+                                    <div class="comparison-column">
+                                        <h5>Vantagens</h5>
+                                        <ul class="advantages-list">
+                                            <li><i class="fas fa-check-circle"></i> Taxa Pré-fixada: Segurança total</li>
+                                            <li><i class="fas fa-check-circle"></i> TR: Menor custo histórico</li>
+                                            <li><i class="fas fa-check-circle"></i> IPCA: Pode ser vantajoso com inflação baixa</li>
+                                        </ul>
+                                    </div>
+                                    <div class="comparison-column">
+                                        <h5>Desvantagens</h5>
+                                        <ul class="disadvantages-list">
+                                            <li><i class="fas fa-times-circle"></i> Taxa Pós-fixada: Risco de aumento</li>
+                                            <li><i class="fas fa-times-circle"></i> CET inclui seguros e taxas extras</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="carousel-slide">
+                            <div class="slide-header">
+                                <div class="header-text">
+                                    <h3>Amortização</h3>
+                                    <span>Pagamento da Dívida Real</span>
+                                    <p>É a parte do dinheiro que você paga que serve para diminuir o valor original que você pegou emprestado.</p>
+                                </div>
+                            </div>
+                            <div class="slide-body">
+                                <h4>Como Funciona</h4>
+                                <ul class="details-list">
+                                    <li>É o pagamento do valor principal da dívida, sem contar os juros.</li>
+                                    <li>Quando você paga um valor a mais (amortização extra), ele diminui o saldo devedor imediatamente.</li>
+                                    <li>Pode ser usada para reduzir o tempo de pagamento ou o valor da sua parcela futura.</li>
+                                    <li>É essencial para economizar muito no total de juros pagos.</li>
+                                </ul>
+                                <div class="comparison-grid">
+                                    <div class="comparison-column">
+                                        <h5>Vantagens</h5>
+                                        <ul class="advantages-list">
+                                            <li><i class="fas fa-check-circle"></i> Usar o FGTS para adiantar o pagamento da dívida.</li>
+                                            <li><i class="fas fa-check-circle"></i> Fazer pagamentos extras usando o 13º salário ou um dinheiro extra que sobrar.</li>
+                                            <li><i class="fas fa-check-circle"></i> Geralmente, reduzir o prazo do financiamento é a opção mais vantajosa para economizar.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="comparison-column">
+                                        <h5>Desvantagens</h5>
+                                        <ul class="disadvantages-list">
+                                            <li><i class="fas fa-times-circle"></i> Verificar regras do contrato</li>
+                                            <li><i class="fas fa-times-circle"></i> Não afeta seguros e taxas</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <div class="carousel-nav">
+                    <button class="carousel-button" id="prev-button" disabled>Anterior</button>
+                    <div class="carousel-pagination" id="carousel-pagination">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                    <button class="carousel-button" id="next-button">Próximo</button>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="simulator" class="simulator">
+            <div class="container">
+                <div class="simulator-header section-header">
+                    <h2 class="section-title">Simulador de Financiamento</h2>
+                    <p class="section-subtitle">Calcule e compare as melhores opções de financiamento para seu imóvel</p>
+                </div>
+                
+                <div class="simulator-container">
+                    
+                    <div class="calculator-form">
+                        <div class="form-header">
+                            <div class="form-icon">
+                                <img src="https://api.iconify.design/ph:calculator-fill.svg?color=%2377DF40" alt="Ícone de Calculadora">
+                            </div>
+                            <h3>Calculadora de Financiamento</h3>
+                            <p>Simule seu financiamento e compare os sistemas</p>
+                        </div>
+                        <form id="financing-form">
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="sou-cliente-agi" name="sou-cliente-agi">
+                                <label for="sou-cliente-agi">Sou Cliente Agi</label>
+                                <small>Marque se você já tem conta para um cálculo mais preciso.</small>
+                            </div>
+
+                            <div class="form-group cpf-field hidden" id="cpf-container">
+                                <label for="cpf-usuario">Seu CPF</label>
+                                <input type="text" id="cpf-usuario" name="cpf-usuario" placeholder="000.000.000-00">
+                                <small>Usaremos o CPF apenas para consultar seu score interno e aplicar a taxa correta.</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="valor-imovel">Valor Total do Imóvel (R$)</label>
+                                <input type="text" id="valor-imovel" name="valor-imovel" placeholder="Ex: 300.000,00" required>
+                                <small>Valor de avaliação ou compra do imóvel.</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="valor-entrada">Valor de Entrada (R$)</label>
+                                <input type="text" id="valor-entrada" name="valor-entrada" placeholder="Ex: 60.000,00" required>
+                                <small>Recomendado no mínimo 20% do valor do imóvel.</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="prazo-anos">Prazo Desejado (Anos)</label>
+                                <input type="number" id="prazo-anos" name="prazo-anos" min="1" max="35" placeholder="De 1 a 35 anos" required>
+                                <small>Prazo máximo de financiamento é 35 anos.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="renda-bruta">Renda Bruta Mensal (R$)</label>
+                                <input type="text" id="renda-bruta" name="renda-bruta" placeholder="Ex: 5.000,00" required>
+                                <small>Renda do proponente principal.</small>
+                            </div>
+
+                            <div class="form-group checkbox-group">
+                                <input type="checkbox" id="incluir-participante" name="incluir-participante">
+                                <label for="incluir-participante">Incluir Renda de Participante/Cônjuge</label>
+                            </div>
+
+                            <div class="form-group conjuge-field hidden">
+                                <label for="renda-conjuge">Renda do Participante (R$)</label>
+                                <input type="text" id="renda-conjuge" name="renda-conjuge" placeholder="Ex: 3.500,00">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="modalidade">Modalidade de Simulação</label>
+                                <select id="modalidade" name="modalidade" required>
+
+                                    <option value="sac">Tabela - SAC</option>
+                                    <option value="price">Tabela - PRICE</option>
+                                    <option value="AMBOS">Ambos - SAC e PRICE</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="cta-button">
+                                <img src="https://api.iconify.design/ph:paper-plane-tilt-fill.svg?color=white" alt="Ícone de avião de papel">
+                                Calcular Financiamento
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="calculator-results" id="resultado-simulacao">
+                        
+                        <div class="results-placeholder active">
+                            <img src="https://api.iconify.design/ph:files-fill.svg?color=%23DDE4EE" alt="Ícone de arquivos">
+                            <h3>Aguardando Simulação</h3>
+                            <p>Preencha os campos ao lado e clique em 'Simular' para ver suas condições.</p>
+                        </div>
+
+                        <div class="results-content">
+                            
+                            <div class="result-card" id="resultado-sac">
+                                <h4>SAC (Amortização Constante)</h4>
+                                <p>Primeira Parcela: <strong id="sac-primeira-parcela">R$ -</strong></p>
+                                <p>Última Parcela: <strong id="sac-ultima-parcela">R$ -</strong></p>
+                                <p>Total de Juros: <strong id="sac-total-juros">R$ -</strong></p>
+                                <p>Renda Comprometida: <strong id="sac-renda-comprometida"></strong><b>%</b></p>
+                                <p>Total Pago ao Final: <strong id="sac-total-pago">R$ -</strong></p>
+                                <p>Diferença entre SAC e PRICE: <strong id="diferenca-sacprice">R$ -</strong></p>
+                            </div>
+
+                            <div class="result-card hidden" id="resultado-sac-clienteAgi">
+                                <h4>SAC</h4>
+                                <p>Taxa AGI de até: <strong id="taxa-clienteAgi-sac"> </strong></p>
+                                <p>Primeira Parcela: <strong id="sac-primeira-parcela-clienteAgi">R$ -</strong></p>
+                                <p>Última Parcela: <strong id="sac-ultima-parcela-clienteAgi">R$ -</strong></p>
+                                <p>Total de Juros: <strong id="sac-total-juros-clienteAgi">R$ -</strong></p>
+                                <p>Renda Comprometida: <strong id="sac-renda-comprometida-clienteAgi"></strong><b>%</b></p>
+                                <p>Total Pago ao Final: <strong id="sac-total-pago-clienteAgi">R$ -</strong></p>
+                                <p style="color: #0066F2;">Cliente AGI economiza até: <strong id="diferenca-sacprice-clienteAgi">R$ -</strong></p>
+                            </div>
+
+                            <div class="result-card" id="resultado-price">
+                                <h4>PRICE (Parcelas Fixas)</h4>
+                                <p>Parcela Fixa Mensal: <strong id="price-parcela-fixa">R$ -</strong></p>
+                                <p>Total de Juros: <strong id="price-total-juros">R$ -</strong></p>
+                                <p>Renda Comprometida: <strong id="price-renda-comprometida"></strong><b>%</b></p>
+                                <p>Total Pago ao Final: <strong id="price-total-pago">R$ -</strong></p>
+                                <p>Diferença entre PRICE e SAC: <strong id="diferenca-pricesac">R$ -</strong></p>
+                            </div>
+
+                            <div class="result-card hidden" id="resultado-price-clienteAgi">
+                                <h4>PRICE</h4>
+                                <p>Taxa AGI de até: <strong id="taxa-clienteAgi-price"> </strong></p>
+                                <p>Parcela Fixa Mensal: <strong id="price-parcela-fixa-clienteAgi">R$ -</strong></p>
+                                <p>Total de Juros: <strong id="price-total-juros-clienteAgi">R$ -</strong></p>
+                                <p>Renda Comprometida: <strong id="price-renda-comprometida-clienteAgi"></strong><b>%</b></p>
+                                <p>Total Pago ao Final: <strong id="price-total-pago-clienteAgi">R$ -</strong></p>
+                                <p style="color: #0066F2;">Cliente AGI economiza até: <strong id="diferenca-pricesac-clienteAgi">R$ -</strong></p>
+                            </div>
+
+                            <div class="results-actions">
+                                <button class="action-button pdf" id="btn-baixar-pdf">Baixar PDF</button>
+                                <button class="action-button email" id="btn-enviar-email">Enviar por E-mail</button>
+                            </div>
+                    
+                            <p class="disclaimer">* Valores são apenas estimativas e não constituem proposta de crédito.</p>
+                            <p class="disclaimer">*Cálculos baseados em uma taxa de juros de 9% a.a.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="cliente-agi">
+    <div class="agi-client">
+        
+        <div class="section-header">
+            <h1 class="section-title-agi">
+                É cliente <span class="Agi">Agi</span>?
+            </h1>
+            <p class="section-subtitle-agi">
+                Entre agora na sua conta Agi ou fale com um dos nossos colaboradores
+            </p>
+        </div>
+
+        
+        <div class="login-cta">
+            <a href="https://www.agi.com.br/" target="_blank" class="btn btn-primary">
+                Acessar Conta Agi
+            </a>
+            <a href="https://api.whatsapp.com/send?phone=551130042221&text=Ol%C3%A1!%20Meu%20c%C3%B3digo%20%C3%A9%20(Cgccdldbtb45Dpi)%20e%20quero%20falar%20com%20o%20Agi!&type=phone_number&app_absent=0"
+               target="_blank" class="btn btn-secondary">
+                Falar com um Colaborador
+            </a>
+        </div>
+
+       
+
+        
+        <div class="video-container">
+            <video autoplay loop muted playsinline width="100%" height="auto">
+                <source src="https://static.agibank.com.br/web_public/site/images-site/familia-banner-hero-site.webm" type="video/mp4">      
+            </video>
+        </div>
+    </div>
+</section>
+
+
+        <section id="why-us" class="why-us">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Por Que Escolher o <span>Simulador AGIMOB</span>?</h2>
+                    <p class="section-subtitle">Oferecemos as melhores condições e ferramentas mais precisas do mercado</p>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon green-bg">
+                            <img src="https://api.iconify.design/ph:calculator-fill.svg?color=%2377DF40" alt="Ícone de Calculadora">
+                        </div>
+                        <h3>Simulação Precisa</h3>
+                        <p>Cálculos exatos usando sistemas SAC e PRICE com taxas reais do mercado</p>
+                    </div>
+        
+                    <div class="feature-item">
+                        <div class="feature-icon blue-bg">
+                            <img src="https://api.iconify.design/ph:chart-line-up-bold.svg?color=%230066F2" alt="Ícone de Gráfico">
+                        </div>
+                        <h3>Melhores Taxas AGIMOB</h3>
+                        <p>Taxa especial pra clientes AGIMOB, 3% menor que a concorrência</p>
+                    </div>
+        
+                    <div class="feature-item">
+                        <div class="feature-icon blue-bg">
+                            <img src="https://api.iconify.design/ph:clock-fill.svg?color=%230066F2" alt="Ícone de Relógio">
+                        </div>
+                        <h3>Prazo Estendido</h3>
+                        <p>Até 420 meses para financiamento, 40 meses a mais que outros bancos</p>
+                    </div>
+        
+                    <div class="feature-item">
+                        <div class="feature-icon green-bg">
+                            <img src="https://api.iconify.design/ph:shield-check-fill.svg?color=%2377DF40" alt="Ícone de Escudo">
+                        </div>
+                        <h3>Dados Seguros</h3>
+                        <p>Suas informações são protegidas e utilizadas apenas para simulação</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="benefits" id="benefits">
+            <div class="container">
+                <h2 class="section-title">Vantagens Exclusivas AGIMOB</h2>
+                <p class="section-subtitle">Veja por que nosso financiamento é a escolha certa para você.</p>
+                
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-header">
+                            <div class="benefit-icon">
+                                <img src="https://api.iconify.design/ph:shield-check-fill.svg?color=white" alt="Ícone de Escudo">
+                            </div>
+                            <h4>Seguro Incluído Gratuitamente</h4>
+                        </div>
+                        <p>
+                            Todo cliente AGIMOB GANHA o seguro do financiamento sem custo adicional. Uma proteção extra que garante tranquilidade para você e sua família, incluída automaticamente no seu contrato.
+                        </p>
+                    </div>
+        
+                    <div class="benefit-card">
+                        <div class="benefit-header">
+                            <div class="benefit-icon">
+                                <img src="https://api.iconify.design/ph:lightning-fill.svg?color=white" alt="Ícone de Raio">
+                            </div>
+                            <h4>Parcelas Flexíveis</h4>
+                        </div>
+                        <p>
+                            Oferecemos sistemas de parcelas flexíveis com a possibilidade de antecipar parcelas quando você tiver recursos disponíveis. Reduza o tempo do seu financiamento e economize ainda mais em juros.
+                        </p>
+                    </div>
+        
+                    <div class="benefit-card">
+                        <div class="benefit-header">
+                            <div class="benefit-icon">
+                                <img src="https://api.iconify.design/ph:arrows-clockwise-fill.svg?color=white" alt="Ícone de Recarregar">
+                            </div>
+                            <h4>Possibilidade de Repactuação</h4>
+                        </div>
+                        <p>
+                            Você pode renegociar o prazo total do financiamento para reduzir sua parcela mensal, adaptando-se às mudanças na sua vida financeira.
+                        </p>
+                        <div class="sub-benefit">
+                            <p><strong>Flexibilidade:</strong> Até 2 repactuações por ano, máximo de 3 no total (sujeito à análise e negociação)</p>
+                        </div>
+                    </div>
+        
+                    <div class="benefit-card">
+                        <div class="benefit-header">
+                            <div class="benefit-icon">
+                                <img src="https://api.iconify.design/ph:lock-fill.svg?color=white" alt="Ícone de Cadeado">
+                            </div>
+                            <h4>Seguro Prestamista Embutido</h4>
+                        </div>
+                        <p>
+                            O valor do seguro prestamista já está embutido no contrato. Em caso de insegurança financeira temporária, o seguro cobre suas parcelas por até 12 meses consecutivos.
+                        </p>
+                        <div class="sub-benefit">
+                            <p><strong>Proteção Total:</strong> Cobertura automática sem burocracia adicional em momentos de dificuldade</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="popup-overlay" id="email-popup">
+        <div class="popup-content">
+            <button class="popup-close">&times;</button>
+            <h4>Receba sua Simulação por E-mail</h4>
+            <p>Insira seu endereço de e-mail e enviaremos o relatório detalhado da sua simulação.</p>
+            <form id="email-form">
+                <input type="email" id="email-input" placeholder="seu.email@exemplo.com" required>
+                <button type="submit" class="cta-button">Enviar</button>
+            </form>
+        </div>
+    </div>
+    <section>
+    <div class="acessibilidade" id="acessibilidade-container">
+        <img src="https://static.agibank.com.br/web_public/agi-ui/img/agi-campus-desktop.png" alt="Predio principal do agibank" style="width:100%; height:auto; padding-top: 5rem;">
+        
+        <div class="footer-content-wrapper">
+            
+            <div class="bloco-contato">
+                <div class="contatos">
+                    <h1>Contatos</h1>
+                </div>
+                <div class="info">
+                    <h4>Como falar conosco?</h4>
+                    <p>Telefone</p>
+                    <a>(19) 91234-5678</a>
+                    <p>E-mail</p>
+                    <a>agimob@agi.sfi.com.br</a>
+                    <p>Endereço</p>
+                    <a>Rua Sergio Fernandes Borges Soares, 1000 | Prédio E1- Distrito Industrial, Campinas - SP, 13054-709</a>
+                </div>
+            </div>
+
+            <div class="atd-libras">
+                <a href="https://atendimento.agilive.agibank.com.br/agibankalmaviva.libras" target="_self" class="btn">Atendimento em Libras</a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+    <script src="script.js"></script>
+</body>
+</html>
