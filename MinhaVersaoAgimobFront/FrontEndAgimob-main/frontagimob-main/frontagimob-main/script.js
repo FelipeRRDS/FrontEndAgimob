@@ -31,6 +31,9 @@ const formatarPorcentagem = (valor) => {
 };
 
 
+
+
+
 // ======================================================================
 // DOMContentLoaded
 // ======================================================================
@@ -79,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailPopup = document.getElementById('email-popup');
     const emailForm = document.getElementById('email-form');
     const popupCloseBtn = document.querySelector('.popup-close');
-
     // -------------------- TOGGLE CPF / PARTICIPANTE --------------------
     checkboxAgi.addEventListener('change', () => {
         if (checkboxAgi.checked) {
@@ -116,23 +118,49 @@ document.addEventListener('DOMContentLoaded', () => {
     // EXIBIR RESULTADOS
     // ======================================================================
     const displayResults = (result, modalidade) => {
-    resultsPlaceholder.classList.remove('active');
-    resultsContent.classList.add('active');
+        resultsPlaceholder.classList.remove('active');
+        resultsContent.classList.add('active');
 
-    const infoSac = result.sac?.informacoesAdicionais || null;
-    const infoPrice = result.price?.informacoesAdicionais || null;
-    const infoClienteAgiSac = result.sac?.informacoesAdicionaisClienteAgi || null;
-    const infoClienteAgiPrice = result.price?.informacoesAdicionaisClienteAgi || null;
+        const infoSac = result.sac?.informacoesAdicionais || null;
+        const infoPrice = result.price?.informacoesAdicionais || null;
+        
+        const parcelasSac = result.sac?.parcelas || null;
+        const parcelasPrice = result.price?.parcelas || null;
+        
 
-    // Mostrar SAC
-    if ((modalidade === 'SAC' || modalidade === "AMBOS") && infoSac && infoClienteAgiSac == null) {
-        document.getElementById('sac-primeira-parcela').textContent = formatCurrency(infoSac.primeiraParcela);
-        document.getElementById('sac-ultima-parcela').textContent = formatCurrency(infoSac.ultimaParcela);
-        document.getElementById('sac-total-juros').textContent = formatCurrency(infoSac.valorTotalJuros);
-        document.getElementById('sac-total-pago').textContent = formatCurrency(infoSac.valorTotalFinanciamento);
+        // Mostrar SAC
+        if ((modalidade === 'SAC' || modalidade === "AMBOS") && infoSac && result.tipoUsuario == 'GERAL' ) {
+            document.getElementById('sac-primeira-parcela').textContent = formatCurrency(infoSac.primeiraParcela);
+            document.getElementById('sac-ultima-parcela').textContent = formatCurrency(infoSac.ultimaParcela);
+            document.getElementById('sac-total-juros').textContent = formatCurrency(infoSac.valorTotalJuros);
+            document.getElementById('sac-total-pago').textContent = formatCurrency(infoSac.valorTotalFinanciamento);
+             var elementoRendaComprometida = document.getElementById('sac-renda-comprometida');
+        elementoRendaComprometida.textContent = formatarPorcentagem(infoSac.rendaComprometida);
 
-        //mudar cor caso renda comprometida seja maior que 30!
-        var elementoRendaComprometida = document.getElementById('sac-renda-comprometida');
+        if(infoSac.rendaComprometida > 30){
+
+            elementoRendaComprometida.style.color = 'red';
+        }else{
+            elementoRendaComprometida.style.color='';
+        }
+            
+            exibirTabelaParcelas(parcelasSac, 'tabela-sac-container');
+
+            resultadoSAC.style.display = 'block';
+        } else {
+            resultadoSAC.style.display = 'none';
+        }
+
+        // Mostrar SAC Cliente Agi
+        if ((modalidade === 'AMBOS' || modalidade === 'SAC') && infoSac && result.tipoUsuario == 'CLIENTE' ) {
+            document.getElementById('taxa-clienteAgi-sac').textContent = formatarPorcentagem(infoSac.taxa * 100);
+            document.getElementById('sac-primeira-parcela-clienteAgi').textContent = formatCurrency(infoSac.primeiraParcela);
+            document.getElementById('sac-ultima-parcela-clienteAgi').textContent = formatCurrency(infoSac.ultimaParcela);
+            document.getElementById('sac-total-juros-clienteAgi').textContent = formatCurrency(infoSac.valorTotalJuros);
+            document.getElementById('sac-total-pago-clienteAgi').textContent = formatCurrency(infoSac.valorTotalFinanciamento);
+            document.getElementById('diferenca-sacprice-clienteAgi').textContent = formatCurrency(infoSac.diferencaPriceSac);
+
+        var elementoRendaComprometida = document.getElementById('sac-renda-comprometida-clienteAgi');
         elementoRendaComprometida.textContent = formatarPorcentagem(infoSac.rendaComprometida);
 
         if(infoSac.rendaComprometida > 30){
@@ -142,79 +170,65 @@ document.addEventListener('DOMContentLoaded', () => {
             elementoRendaComprometida.style.color='';
         }
 
-        document.getElementById('diferenca-sacprice').textContent = formatCurrency(infoSac.diferencaPriceSac);
-        resultadoSAC.style.display = 'block';
-    } else {
-        resultadoSAC.style.display = 'none';
-    }
-
-    if ((modalidade === 'AMBOS') && infoClienteAgiSac) {
-        document.getElementById('taxa-clienteAgi-sac').textContent = formatarPorcentagem(infoClienteAgiSac.taxa*100) + '%';
-        document.getElementById('sac-primeira-parcela-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.primeiraParcela);
-        document.getElementById('sac-ultima-parcela-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.ultimaParcela);
-        document.getElementById('sac-total-juros-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.valorTotalJuros);
-        document.getElementById('sac-total-pago-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.valorTotalFinanciamento);
-
-        //mudar cor caso renda comprometida seja maior que 30!
-        var elementoRendaComprometida = document.getElementById('sac-renda-comprometida-clienteAgi');
-        elementoRendaComprometida.textContent = formatarPorcentagem(infoClienteAgiSac.rendaComprometida);
-
-        if(infoSac.rendaComprometida > 30){
-
-            elementoRendaComprometida.style.color = 'red';
-        }else{
-            elementoRendaComprometida.style.color='';
+            
+            exibirTabelaParcelas(parcelasSac, 'tabela-sac-cliente-container');
+            resultadoSacClienteAgi.style.display = 'block';
+        } else {
+            resultadoSacClienteAgi.style.display = 'none';
         }
 
-        document.getElementById('diferenca-sacprice-clienteAgi').textContent = formatCurrency(infoClienteAgiSac.diferencaPriceSac);
-        resultadoSacClienteAgi.style.display = 'block';
+        // Mostrar PRICE
+        if ((modalidade === 'PRICE' || modalidade === "AMBOS") && infoPrice && result.tipoUsuario == 'GERAL' ) {
+            document.getElementById('price-parcela-fixa').textContent = formatCurrency(infoPrice.primeiraParcela);
+            document.getElementById('price-total-juros').textContent = formatCurrency(infoPrice.valorTotalJuros);
+            document.getElementById('price-total-pago').textContent = formatCurrency(infoPrice.valorTotalFinanciamento);
+
+
+           var elementoRendaComprometida = document.getElementById('price-renda-comprometida');
+    
+   
+    elementoRendaComprometida.textContent = formatarPorcentagem(infoPrice.rendaComprometida);
+
+    
+    if (infoPrice.rendaComprometida > 30) {
+        elementoRendaComprometida.style.color = 'red';
     } else {
-        resultadoSacClienteAgi.style.display = 'none';
+        elementoRendaComprometida.style.color = ''; 
     }
-
-    // Mostrar PRICE
-    if ((modalidade === 'PRICE'|| modalidade=== "AMBOS") && infoPrice && infoClienteAgiPrice == null) {
-        document.getElementById('price-parcela-fixa').textContent = formatCurrency(infoPrice.primeiraParcela);
-        document.getElementById('price-total-juros').textContent = formatCurrency(infoPrice.valorTotalJuros);
-        document.getElementById('price-total-pago').textContent = formatCurrency(infoPrice.valorTotalFinanciamento);
-
-        var elementoRendaComprometida = document.getElementById('price-renda-comprometida').textContent;
-        elementoRendaComprometida = formatarPorcentagem(infoPrice.rendaComprometida);
-
-        if (infoPrice.rendaComprometida > 30){
-            elementoRendaComprometida.style.color='red';
-        }else{
-            elementoRendaComprometida.style.color='';
+            
+            exibirTabelaParcelas(parcelasPrice, 'tabela-price-container');
+            resultadoPrice.style.display = 'block';
+        } else {
+            resultadoPrice.style.display = 'none';
         }
 
-        document.getElementById('price-renda-comprometida').textContent = formatarPorcentagem(infoPrice.rendaComprometida);
-        document.getElementById('diferenca-pricesac').textContent = formatCurrency(infoPrice.diferencaPriceSac);
-        resultadoPrice.style.display = 'block';
+        // Mostrar PRICE Cliente Agi
+        if ((modalidade === 'AMBOS' || modalidade === 'PRICE') && infoPrice && result.tipoUsuario == 'CLIENTE' ) {
+            document.getElementById('taxa-clienteAgi-price').textContent = formatarPorcentagem(infoPrice.taxa * 100);
+            document.getElementById('price-parcela-fixa-clienteAgi').textContent = formatCurrency(infoPrice.primeiraParcela);
+            document.getElementById('price-total-juros-clienteAgi').textContent = formatCurrency(infoPrice.valorTotalJuros);
+            document.getElementById('price-total-pago-clienteAgi').textContent = formatCurrency(infoPrice.valorTotalFinanciamento);
+           
+            document.getElementById('diferenca-pricesac-clienteAgi').textContent = formatCurrency(infoPrice.diferencaPriceSac);
+
+            var elementoRendaComprometida = document.getElementById('price-renda-comprometida-clienteAgi');
+    
+    // 2. Defina o texto do elemento.
+    elementoRendaComprometida.textContent = formatarPorcentagem(infoPrice.rendaComprometida);
+
+    // 3. Agora, aplique o estilo ao ELEMENTO.
+    if (infoPrice.rendaComprometida > 30) {
+        elementoRendaComprometida.style.color = 'red';
     } else {
-        resultadoPrice.style.display = 'none';
+        elementoRendaComprometida.style.color = ''; // Limpa a cor se for menor que 30
     }
-
-    if ((modalidade === 'AMBOS') && infoClienteAgiPrice) {
-        document.getElementById('taxa-clienteAgi-price').textContent = formatarPorcentagem(infoClienteAgiPrice.taxa*100) + '%';
-        document.getElementById('price-parcela-fixa-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.primeiraParcela);
-        document.getElementById('price-total-juros-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.valorTotalJuros);
-        document.getElementById('price-total-pago-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.valorTotalFinanciamento);
-
-        var elementoRendaComprometida = document.getElementById('price-renda-comprometida-clienteAgi');
-        elementoRendaComprometida = formatarPorcentagem(infoClienteAgiPrice.rendaComprometida);
-
-        if(infoClienteAgiPrice.rendaComprometida > 30){
-            elementoRendaComprometida.style.color='red';
-        }else{
-            elementoRendaComprometida.style.color='';
+           
+            exibirTabelaParcelas(parcelasPrice, 'tabela-price-cliente-container');
+            resultadoPriceClienteAgi.style.display = 'block';
+        } else {
+            resultadoPriceClienteAgi.style.display = 'none';
         }
-        document.getElementById('price-renda-comprometida-clienteAgi').textContent = formatarPorcentagem(infoClienteAgiPrice.rendaComprometida);
-        document.getElementById('diferenca-pricesac-clienteAgi').textContent = formatCurrency(infoClienteAgiPrice.diferencaPriceSac);
-        resultadoPriceClienteAgi.style.display = 'block';
-    } else {
-        resultadoPriceClienteAgi.style.display = 'none';
-    }
-};
+    };
 
 
     // ======================================================================
@@ -270,6 +284,80 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    const exibirTabelaParcelas = (parcelas, containerId) => {
+    const container = document.getElementById(containerId);
+    if (!container || !parcelas || parcelas.length === 0) {
+        if (container) container.innerHTML = ''; // Limpa se não houver parcelas
+        return;
+    }
+
+    const primeiras10 = parcelas.slice(0, 10);
+
+    let html = `
+        <div class="table-container">
+            <div class="table-header">
+                <button class="table-toggle" onclick="toggleTable('${containerId}')">
+                    <span class="toggle-icon">▼</span> Ver Primeiras 10 Parcelas
+                </button>
+            </div>
+            <div class="table-content" style="display: none;">
+                <div class="table-scroll">
+                    <table class="parcelas-table">
+                        <thead>
+                            <tr>
+                                <th>Nº</th>
+                                <th>Valor Total</th>
+                                <th>Juros</th>
+                                <th>Amortização</th>
+                                <th>Saldo Devedor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    `;
+
+    primeiras10.forEach((parcela, index) => {
+        html += `
+            <tr ${index === 0 ? 'class="primeira-parcela"' : ''}>
+                <td>${parcela.numeroParcela}</td>
+                <td>${formatCurrency(parcela.valorTotalParcela)}</td>
+                <td>${formatCurrency(parcela.valorJurosParcela)}</td>
+                <td>${formatCurrency(parcela.amortizacao)}</td>
+                <td>${formatCurrency(parcela.saldoDevedor)}</td>
+            </tr>
+        `;
+    });
+
+    html += `
+                        </tbody>
+                    </table>
+                </div>
+                <p class="table-info">Mostrando as 10 primeiras parcelas de ${parcelas.length} no total.</p>
+                <p class="table-info"><b>Para visualizar todas as parceas baixe o relatório em PDF ou envie para o seu e-mail!</b></b></p>
+            </div>
+        </div>
+    `;
+
+    container.innerHTML = html;
+};
+
+// Função global para o botão de toggle
+window.toggleTable = (containerId) => {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const content = container.querySelector('.table-content');
+    const button = container.querySelector('.table-toggle');
+    
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        button.innerHTML = '<span class="toggle-icon">▲</span> Ocultar Tabela de Parcelas';
+    } else {
+        content.style.display = 'none';
+        button.innerHTML = '<span class="toggle-icon">▼</span> Ver Primeiras 10 Parcelas';
+    }
+};
+
+
     // ======================================================================
     // POPUP DE EMAIL
     // ======================================================================
@@ -282,46 +370,60 @@ document.addEventListener('DOMContentLoaded', () => {
     emailPopup.addEventListener('click', e => { if (e.target === emailPopup) togglePopup(); });
 
     emailForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('email-input').value;
-        const submitButton = emailForm.querySelector('.cta-button');
-        const simulacaoId = dadosSimulacao.result?.id;
-        if (!simulacaoId) { alert("ID da simulação não encontrado."); return; }
+    e.preventDefault();
+    const email = document.getElementById('email-input').value;
+    const submitButton = emailForm.querySelector('.cta-button');
 
-        submitButton.textContent = 'Enviando...';
-        submitButton.disabled = true;
-        try {
-            const url = `${API_BASE_URL}/simulacao/enviarSimulacao/${email}/${simulacaoId}`;
-            const response = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' } });
-            if (!response.ok) throw new Error(await response.text().catch(() => 'Erro desconhecido'));
-            alert(`Simulação enviada para ${email}!`);
-            togglePopup();
-            emailForm.reset();
-        } catch (error) {
-            console.error('Erro no envio de e-mail:', error);
-            alert(`Falha ao enviar: ${error.message}`);
-        } finally {
-            submitButton.textContent = 'Enviar';
-            submitButton.disabled = false;
+    const simulacaoResponse = dadosSimulacao.result ? dadosSimulacao.result : null;
+
+    if (!simulacaoResponse) {
+        alert("Dados da simulação não encontrados. Por favor, realize a simulação primeiro.");
+        return;
+    }
+
+    submitButton.textContent = 'Enviando...';
+    submitButton.disabled = true;
+
+    try {
+        const url = `${API_BASE_URL}/simulacao/enviarSimulacao/${email}`;
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(simulacaoResponse)
+        });
+
+        if (!response.ok) {
+            throw new Error(await response.text().catch(() => 'Erro desconhecido no servidor'));
         }
-    });
+
+        alert(`Simulação enviada para ${email}!`);
+        togglePopup();
+        emailForm.reset();
+    } catch (error) {
+        console.error('Erro no envio de e-mail:', error);
+        alert(`Falha ao enviar: ${error.message}`);
+    } finally {
+        submitButton.textContent = 'Enviar';
+        submitButton.disabled = false;
+    }
+});
 
     // ======================================================================
     // GERAR PDF
     // ======================================================================
     btnBaixarPDF.addEventListener('click', async () => {
-    const simulacaoId = dadosSimulacao.result?.id;
-    if (!simulacaoId) { 
-        alert("Realize a simulação antes de gerar PDF."); 
-        return; 
-    }
+
+    const simulacaoResponse = dadosSimulacao.result ? dadosSimulacao.result : null;
 
     const textoOriginal = btnBaixarPDF.textContent;
     btnBaixarPDF.disabled = true;
     btnBaixarPDF.textContent = "📄 Baixando PDF...";
 
     try {
-        const response = await fetch(`${API_BASE_URL}/simulacao/baixarSimulacao/${simulacaoId}`, { method: 'POST' });
+        const response = await fetch(`${API_BASE_URL}/simulacao/baixarSimulacao`, { method: 'POST',
+            headers: { 'Content-Type': 'application/json' }, 
+            body: JSON.stringify(simulacaoResponse)
+        });
         if (!response.ok) { 
             alert(`Falha ao gerar PDF: ${response.statusText}`); 
             btnBaixarPDF.textContent = textoOriginal;
@@ -333,7 +435,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const urlBlob = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = urlBlob;
-        a.download = `simulacao_agimob_${simulacaoId}.pdf`;
+        a.download = `simulacao_agimob.pdf`;
         document.body.appendChild(a);
         a.click();
         a.remove();
