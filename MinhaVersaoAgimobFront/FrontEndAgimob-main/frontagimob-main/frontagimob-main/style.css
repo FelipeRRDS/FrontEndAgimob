@@ -27,7 +27,7 @@ body {
     color: var(--light-text);
     padding-top: 80px;
 }
-.container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+.container { max-width: 1280px; margin: 0 auto; }
 .section-header { text-align: center; margin-bottom: 4rem; }
 .section-header .section-title { font-size: 2.5rem; color: var(--dark-text); margin-bottom: 1rem; }
 .section-header .section-subtitle { font-size: 1.1rem; color: var(--light-text); max-width: 600px; margin: 0 auto; }
@@ -137,7 +137,7 @@ body {
 /* --------------------------------------------------------------------------
    [5] SEÇÃO SIMULADOR (NOVO DESIGN) - Fundo Branco
    -------------------------------------------------------------------------- */
-.simulator { padding: 80px 20px; background-color: var(--primary-white); }
+.simulator { padding:2%; background-color: var(--primary-white); }
 .simulator-header { text-align: center; margin-bottom: 3rem; }
 .simulator-header .section-title { font-size: 2.5rem; color: var(--dark-text); }
 .simulator-header .section-subtitle { font-size: 1.1rem; color: var(--light-text); }
@@ -160,7 +160,7 @@ body {
 .cta-button { width: 100%; padding: 1rem; font-size: 1.1rem; font-weight: 600; color: var(--primary-white); background-color: var(--primary-green); border: none; border-radius: 8px; cursor: pointer; transition: background-color 0.3s ease; display: flex; justify-content: center; align-items: center; gap: 0.5rem; }
 .cta-button:hover { background-color: #69C93A; }
 .cta-button img { width: 20px; height: 20px; }
-.calculator-results { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 730px; }
+.calculator-results { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 730px; max-width: 100%;padding: 0.6%;}
 .results-placeholder, .results-content { width: 100%; text-align: center; }
 .results-placeholder.active, .results-content.active { display: block; }
 .results-placeholder, .results-content { display: none; }
@@ -168,7 +168,7 @@ body {
 .results-placeholder h3 { font-size: 1.5rem; color: var(--dark-text); }
 .results-placeholder p { font-size: 1rem; }
 .results-comparison { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1.5rem; }
-.result-card { background-color: var(--light-blue-bg); padding: 1.5rem; border-radius: 8px; text-align: left; }
+.result-card { background-color: var(--light-blue-bg); padding: 1rem; border-radius: 8px; text-align: left;  max-width: 100%; overflow-x: hidden;}
 .result-card h4 { color: var(--primary-blue); margin-bottom: 1rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
 .result-card p { line-height: 1.8; }
 .result-card p strong { color: var(--dark-text); }
@@ -404,4 +404,91 @@ body {
     .features-grid {
         grid-template-columns: 1fr;
     }
+}
+
+.table-container {
+    margin-top: 1.5rem;
+    border-top: 2px solid var(--border-color);
+    padding-top: 1rem;
+}
+
+/* Botão de toggle */
+.table-toggle {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 1rem;
+}
+
+/* Onde a mágica acontece: o container de scroll */
+.table-scroll {
+    width: 100%; /* Garante que o container respeite a largura do seu pai */
+    overflow-x: auto; /* ATIVA O SCROLL HORIZONTAL APENAS AQUI */
+    -webkit-overflow-scrolling: touch; /* Melhora a experiência de scroll em iOS */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: white;
+}
+
+/* A tabela em si */
+.parcelas-table {
+    width: 100%; /* A tabela tenta ocupar 100% do seu container de scroll */
+    min-width: 600px; /* FORÇA a tabela a ter no mínimo 600px, ativando o scroll em telas menores */
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+/* Restante dos estilos da tabela (mantidos como antes) */
+.parcelas-table thead {
+    background-color: var(--primary-blue);
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.parcelas-table th, .parcelas-table td {
+    padding: 0.8rem;
+    white-space: nowrap; /* Evita que o texto quebre linha */
+}
+.parcelas-table th {
+    text-align: left;
+    font-weight: 600;
+}
+.parcelas-table tbody tr {
+    border-bottom: 1px solid var(--border-color);
+}
+.parcelas-table tbody tr:nth-child(even) {
+    background-color: #fafbfc;
+}
+.parcelas-table td:first-child {
+    font-weight: 600;
+    color: var(--primary-blue);
+    text-align: center;
+}
+.parcelas-table tbody tr.primeira-parcela {
+    background-color: #e8f4fd;
+    font-weight: 600;
+}
+.table-info {
+    font-size: 0.85rem;
+    color: var(--light-text);
+    text-align: center;
+    font-style: italic;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+}
+.parcelas-table td:not(:first-child), .parcelas-table th:not(:first-child) {
+    text-align: right;
 }
