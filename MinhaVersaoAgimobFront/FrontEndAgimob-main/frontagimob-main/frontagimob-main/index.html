@@ -13,7 +13,7 @@
         <img 
             src="https://static.agibank.com.br/web_public/agi-ui/img/caquinhos-60px.png" 
             alt="Ícone de Caco" 
-            style="width: 100%; max-width: 1260px; height: auto;">
+            style="width: 100%; height: auto;">
     </div>
 </body>
 
@@ -278,10 +278,18 @@
                                 <small>Renda do proponente principal.</small>
                             </div>
 
-                            <div class="form-group checkbox-group">
-                                <input type="checkbox" id="incluir-participante" name="incluir-participante">
-                                <label for="incluir-participante">Incluir Renda de Participante/Cônjuge</label>
-                            </div>
+                            <div class="form-group checkbox-group with-tooltip">
+    <input type="checkbox" id="incluir-participante" name="incluir-participante">
+    <label for="incluir-participante">Incluir Renda de Participante/Cônjuge</label>
+    
+    <div class="tooltip-icon">
+        <img src="https://api.iconify.design/ph:info-bold.svg?color=%230066f2" alt="Ícone de informação">
+        <div class="tooltip-text">
+            <strong>Quem pode compor a renda?</strong>
+            <p>Você pode incluir a renda do seu cônjuge ou de parentes de primeiro grau (pais e filhos) para aumentar suas chances de aprovação.</p>
+        </div>
+    </div>
+</div>
 
                             <div class="form-group conjuge-field hidden">
                                 <label for="renda-conjuge">Renda do Participante (R$)</label>
@@ -329,7 +337,7 @@
 
                             <div class="result-card hidden" id="resultado-sac-clienteAgi">
                                 <h4>SAC</h4>
-                                <p>Taxa AGI de até: <strong id="taxa-clienteAgi-sac"> </strong></p>
+                                <p>Taxa AGI de até: <strong id="taxa-clienteAgi-sac"></strong><b>%</b></p>
                                 <p>Primeira Parcela: <strong id="sac-primeira-parcela-clienteAgi">R$ -</strong></p>
                                 <p>Última Parcela: <strong id="sac-ultima-parcela-clienteAgi">R$ -</strong></p>
                                 <p>Total de Juros: <strong id="sac-total-juros-clienteAgi">R$ -</strong></p>
@@ -355,7 +363,7 @@
 
                             <div class="result-card hidden" id="resultado-price-clienteAgi">
                                 <h4>PRICE</h4>
-                                <p>Taxa AGI de até: <strong id="taxa-clienteAgi-price"> </strong></p>
+                                <p>Taxa AGI de até: <strong id="taxa-clienteAgi-price"> </strong><b>%</b></p>
                                 <p>Parcela Fixa Mensal: <strong id="price-parcela-fixa-clienteAgi">R$ -</strong></p>
                                 <p>Total de Juros: <strong id="price-total-juros-clienteAgi">R$ -</strong></p>
                                 <p>Renda Comprometida: <strong id="price-renda-comprometida-clienteAgi"></strong><b>%</b></p>
