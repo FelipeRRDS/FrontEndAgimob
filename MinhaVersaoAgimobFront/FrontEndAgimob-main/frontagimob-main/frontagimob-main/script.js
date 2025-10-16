@@ -39,6 +39,9 @@ const formatarPorcentagem = (valor) => {
 // ======================================================================
 document.addEventListener('DOMContentLoaded', () => {
 
+    const tooltipIcon = document.querySelector('.tooltip-icon');
+
+
     // -------------------- CARROSSEL --------------------
     const track = document.getElementById('carousel-track');
     const slides = Array.from(track.children);
@@ -98,10 +101,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (incluirParticipanteCheckbox.checked) {
             conjugeField.classList.remove('hidden');
             document.getElementById('renda-conjuge').setAttribute('required', 'required');
+
+             if (tooltipIcon) tooltipIcon.classList.add('active');
         } else {
             conjugeField.classList.add('hidden');
             document.getElementById('renda-conjuge').removeAttribute('required');
             document.getElementById('renda-conjuge').value = '';
+
+             if (tooltipIcon) tooltipIcon.classList.remove('active');
         }
     });
 

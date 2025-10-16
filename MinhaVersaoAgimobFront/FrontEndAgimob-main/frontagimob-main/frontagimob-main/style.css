@@ -391,6 +391,8 @@ body {
         grid-template-columns: repeat(2, 1fr);
         gap: 3rem;
     }
+
+    
 }
 
 @media (max-width: 768px) {
@@ -492,3 +494,130 @@ body {
 .parcelas-table td:not(:first-child), .parcelas-table th:not(:first-child) {
     text-align: right;
 }
+
+.video-container {
+    width: 100%; /* Faz o contêiner ser responsivo */
+    max-width: 800px; /* Define o tamanho máximo que o vídeo pode ter em telas grandes. Ajuste este valor como preferir. */
+    margin: 40px auto; /* Centraliza o contêiner na tela e adiciona um espaçamento vertical */
+    border-radius: 16px; /* Opcional: Adiciona cantos arredondados para um visual mais moderno */
+    overflow: hidden; /* Garante que o vídeo respeite os cantos arredondados */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Opcional: Adiciona uma sombra sutil para dar profundidade */
+}
+
+.video-container video {
+    width: 100%; /* Garante que o vídeo preencha o contêiner */
+    height: auto; /* Mantém a proporção correta do vídeo */
+    display: block; /* Remove qualquer espaço extra abaixo do vídeo */
+}
+
+/* No seu style.css, pode adicionar no final ou em uma seção de rodapé/contato */
+
+.secao-acessibilidade {
+    width: 100%; /* Garante que a seção seja responsiva */
+    max-width: 960px; /* Define um tamanho máximo para a seção em telas grandes. Ajuste este valor se desejar. */
+    margin: 80px auto; /* Centraliza a seção e adiciona espaçamento vertical (80px em cima/baixo, auto nas laterais) */
+    text-align: center;
+}
+
+.secao-acessibilidade img {
+    width: 100%; /* Faz a imagem ocupar 100% do seu contêiner (que agora tem um max-width) */
+    max-width: 600px; /* Um limite extra para a imagem em si, caso não queira que ela ocupe toda a seção */
+    height: auto; /* Mantém a proporção da imagem */
+    margin-bottom: 4rem; /* Adiciona um espaço abaixo da imagem */
+}
+
+/* Opcional: Melhora a formatação dos dados de contato */
+.secao-acessibilidade .contato-info {
+    padding-top: 2rem;
+}
+
+.secao-acessibilidade .contato-info p {
+    font-weight: 600;
+    color: var(--dark-text);
+    margin-top: 1.5rem;
+}
+
+.secao-acessibilidade .contato-info a {
+    color: var(--light-text);
+    text-decoration: none;
+    display: block; /* Faz com que os links fiquem em linhas separadas */
+}
+
+ .checkbox-group.with-tooltip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checkbox-group.with-tooltip {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Ícone de informação (ESCONDIDO POR PADRÃO) */
+.tooltip-icon {
+    display: none; /* <--- MUDANÇA: Escondido por padrão */
+    position: relative;
+    cursor: help;
+    transition: opacity 0.3s ease;
+}
+
+/* Regra para MOSTRAR o ícone quando a classe 'active' for adicionada pelo JS */
+.tooltip-icon.active {
+    display: inline-block; /* <--- MUDANÇA: Torna o ícone visível */
+}
+
+.tooltip-icon img {
+    width: 20px;
+    height: 20px;
+}
+
+/* O restante das regras para o texto do pop-up permanece o mesmo */
+.tooltip-text {
+    visibility: hidden;
+    width: 280px;
+    background-color: var(--dark-text);
+    color: var(--primary-white);
+    text-align: left;
+    border-radius: 8px;
+    padding: 1rem;
+    position: absolute;
+    z-index: 10;
+    bottom: 150%;
+    left: 50%;
+    margin-left: -140px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--dark-text) transparent transparent transparent;
+}
+
+.tooltip-icon:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltip-text strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: var(--primary-green);
+}
+
+.tooltip-text p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+
